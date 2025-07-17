@@ -34,7 +34,7 @@ function Bookmark ({ size, id, title, description, image }) {
   }, [scrollPosition])
 
   return (
-    <div className={`relative rounded-2xl overflow-hidden ${sizeClasses[size]}`}>
+    <div className={`relative rounded-2xl shadow-xl overflow-hidden ${sizeClasses[size]}`}>
       <Card className='p-0 h-full'>
         <CardContent className='p-0 w-full h-full overflow-hidden rounded-lg'>
           <div
@@ -51,7 +51,7 @@ function Bookmark ({ size, id, title, description, image }) {
           </div>
 
           {/* Title + Description Overlay */}
-          <div className='absolute bottom-0 right-0 m-3 bg-stone-200/90 text-stone-800 rounded-md px-3 py-2 shadow-md max-w-[70%]'>
+          <div className='absolute bottom-0 right-0 m-3 bg-neutral-200/85 text-neutral-800 rounded-md px-3 py-2 shadow-md max-w-[82%]'>
             <div className='text-sm font-semibold truncate'>{title}</div>
             <div className='text-xs opacity-80 line-clamp-2'>{description}</div>
           </div>

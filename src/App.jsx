@@ -42,12 +42,6 @@ const bookmarkList = [
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
     size: 'default'
   }
-  // {
-  //   title: 'Performance Analytics',
-  //   description: 'Track results in real-time and adapt fast—because great marketing never stands still.',
-  //   image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
-  //   size: 'tall'
-  // }
 ]
 
 function App () {
@@ -58,7 +52,7 @@ function App () {
 
   const isTabBookmarks = activeTab === 'bookmarks'
   return (
-    <main className='grid grid-cols-1 gap-4 bg-background text-foreground ml-10 mt-12 max-w-[90vw]'>
+    <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[90vw]'>
       <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center mt-8'>
         <div className='flex flex-row  mb-0 w-full justify-between'>
           <TabsList className='bg-stone-200'>
@@ -91,8 +85,8 @@ function App () {
         <TabsContent value='home' className='w-[76vw]'>
           <p>Home</p>
         </TabsContent>
-        <TabsContent value='bookmarks' className='w-[76vw]'>
-          <div className='grid grid-cols-4 grid-rows-4 gap-6 h-screen'>
+        <TabsContent value='bookmarks' className='w-[86vw]'>
+          <div className='grid grid-cols-4 grid-rows-4 gap-4 h-screen'>
             {
               bookmarkList?.map((bookmarkItem, index) => {
                 return (
