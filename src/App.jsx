@@ -9,45 +9,45 @@ const bookmarkList = [
   {
     title: 'Data-Backed Strategy',
     description: 'We craft marketing plans built on real insights, not guesswork—so every move has purpose.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173',
     size: 'large'
   },
   {
     title: 'Targeted Campaigns',
-    description: 'Reach the right audience at the right time with campaigns that convert across every platform.',
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80',
+    description: 'Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
     size: 'wide'
   },
   {
     title: 'Social Media Management',
     description: 'From content calendars to engagement boosts.',
-    image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71',
     size: 'default'
   },
   {
     title: 'SEO & Content Marketing',
     description: 'Boost visibility and authority with content that ranks, resonates, and delivers long-term value.',
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80',
-    size: 'default'
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
+    size: 'tall'
   },
   {
     title: 'Creative Branding',
     description: 'Stand out with bold visuals, sharp messaging, and a brand identity that sticks.',
-    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5',
     size: 'wide'
   },
   {
     title: 'Performance Analytics',
     description: 'Track results in real-time and adapt fast—because great marketing never stands still.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
-    size: 'default'
-  },
-  {
-    title: 'Performance Analytics',
-    description: 'Track results in real-time and adapt fast—because great marketing never stands still.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
     size: 'default'
   }
+  // {
+  //   title: 'Performance Analytics',
+  //   description: 'Track results in real-time and adapt fast—because great marketing never stands still.',
+  //   image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
+  //   size: 'tall'
+  // }
 ]
 
 function App () {
