@@ -53,7 +53,7 @@ function Bookmark ({ size, id, title, description, image }) {
           {/* Title + Description Overlay */}
           <div className='absolute bottom-0 right-0 m-3 bg-neutral-200/85 text-neutral-800 rounded-md px-3 py-2 shadow-md max-w-[82%]'>
             <div className='text-sm font-semibold truncate'>{title}</div>
-            <div className='text-xs opacity-80 line-clamp-2'>{description}</div>
+            <div className='text-xs opacity-70 line-clamp-2'>{description}</div>
           </div>
         </CardContent>
       </Card>

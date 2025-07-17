@@ -82,7 +82,7 @@ function App () {
               </Button>}
           </div>
         </div>
-        <TabsContent value='home' className='w-[76vw]'>
+        <TabsContent value='home' className='w-[86vw]'>
           <p>Home</p>
         </TabsContent>
         <TabsContent value='bookmarks' className='w-[86vw]'>
