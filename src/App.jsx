@@ -4,6 +4,8 @@ import Bookmark from '@/components/Bookmark'
 import { Search, Plus } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
+import LoginForm from '@/components/LoginForm'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 
 const bookmarkList = [
   {
@@ -54,65 +56,72 @@ function App () {
 
   return (
     <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[90vw]'>
-      <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center mt-8'>
-        <div className='flex flex-row  mb-0 w-full justify-between'>
-          <TabsList className='bg-stone-200'>
-            {
-              tags?.map((t, i) => {
-                return (
-                  <TabsTrigger key={`tags_trigger_${i}`} value={t} className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
-                    {t}
-                  </TabsTrigger>
-                )
-              })
-            }
-          </TabsList>
-          <div className='align-middle'>
-            <Button
-              type='icon'
-              className='bg-stone-200 hover:bg-stone-100 text-black shadow-none mr-2 h-8 w-30  font-extralight'
-              onClick={(e) => {
-                e.stopPropagation()
-              }}
-            >
-              <Search /> Search
-            </Button>
-            <Button
-              type='icon'
-              className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8  font-extralight'
-              onClick={(e) => {
-                e.stopPropagation()
-              }}
-            >
-              <Plus /> Add
-            </Button>
+      <Dialog>
+        <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center mt-8'>
+          <div className='flex flex-row  mb-0 w-full justify-between'>
+            <TabsList className='bg-stone-200'>
+              {
+                tags?.map((t, i) => {
+                  return (
+                    <TabsTrigger key={`tags_trigger_${i}`} value={t} className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
+                      {t}
+                    </TabsTrigger>
+                  )
+                })
+              }
+            </TabsList>
+            <div className='align-middle'>
+              <Button
+                type='icon'
+                className='bg-stone-200 hover:bg-stone-100 text-black shadow-none mr-2 h-8 w-30  font-extralight'
+                onClick={(e) => {
+                  e.stopPropagation()
+                }}
+              >
+                <Search /> Search
+              </Button>
+              <DialogTrigger asChild>
+                <Button
+                  type='icon'
+                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8  font-extralight'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                  }}
+                >
+                  <Plus /> Add
+                </Button>
+              </DialogTrigger>
+            </div>
           </div>
-        </div>
-        {
-          tags.map((t, i) => {
-            return (
-              <TabsContent key={`tags_content_${i}`} value={t} className='w-[86vw]'>
-                <div className='grid grid-cols-4 grid-rows-4 gap-4 h-screen'>
-                  {
-                    bookmarkList?.map((bookmarkItem, index) => {
-                      return (
-                        <Bookmark
-                          key={index}
-                          id={index}
-                          title={bookmarkItem?.title}
-                          description={bookmarkItem?.description}
-                          image={bookmarkItem?.image}
-                          size={bookmarkItem?.size}
-                        />
-                      )
-                    })
-                  }
-                </div>
-              </TabsContent>
-            )
-          })
-        }
-      </Tabs>
+          <DialogContent className='sm:max-w-[65vw] place-self-center'>
+            <LoginForm />
+          </DialogContent>
+          {
+            tags.map((t, i) => {
+              return (
+                <TabsContent key={`tags_content_${i}`} value={t} className='w-[86vw]'>
+                  <div className='grid grid-cols-4 grid-rows-4 gap-4 h-screen z-0'>
+                    {
+                      bookmarkList?.map((bookmarkItem, index) => {
+                        return (
+                          <Bookmark
+                            key={index}
+                            id={index}
+                            title={bookmarkItem?.title}
+                            description={bookmarkItem?.description}
+                            image={bookmarkItem?.image}
+                            size={bookmarkItem?.size}
+                          />
+                        )
+                      })
+                    }
+                  </div>
+                </TabsContent>
+              )
+            })
+          }
+        </Tabs>
+      </Dialog>
     </main>
   )
 }
