@@ -4,9 +4,9 @@ import Bookmark from '@/components/Bookmark'
 import { Search, Plus } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import CollectBookmarkForm from '@/components/CollectBookmarkForm'
+// import CollectBookmarkForm from '@/components/CollectBookmarkForm'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-
+import { Editor } from '@/components/blocks/editor-00/editor.tsx'
 const bookmarkList = [
   {
     title: 'Data-Backed Strategy',
@@ -94,7 +94,8 @@ function App () {
             </div>
           </div>
           <DialogContent className='sm:max-w-[65vw] place-self-center'>
-            <CollectBookmarkForm />
+            {/* <CollectBookmarkForm /> */}
+            <Editor />
           </DialogContent>
           {
             tags.map((t, i) => {
