@@ -4,7 +4,7 @@ import Bookmark from '@/components/Bookmark'
 import { Search, Plus } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import LoginForm from '@/components/LoginForm'
+import CollectBookmarkForm from '@/components/CollectBookmarkForm'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 
 const bookmarkList = [
@@ -94,7 +94,7 @@ function App () {
             </div>
           </div>
           <DialogContent className='sm:max-w-[65vw] place-self-center'>
-            <LoginForm />
+            <CollectBookmarkForm />
           </DialogContent>
           {
             tags.map((t, i) => {
