@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import * as cheerio from 'cheerio'
 import TurndownService from 'turndown'
 import { invoke } from '@tauri-apps/api/core'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { HoverMeButton } from '@/components/eldoraui/hoverMe'
 
 // Convert HTML to Markdown
 const turndownService = new TurndownService({
@@ -39,7 +40,7 @@ const validateUrl = (url) => {
   }
 }
 
-export default function CollectBookmarkForm () {
+export default function CollectBookmarkForm ({ addBookmark, setAddBookmark }) {
   const [url, setUrl] = useState('')
 
   const handleScrape = async (e) => {
@@ -157,45 +158,47 @@ export default function CollectBookmarkForm () {
   }
 
   return (
-    <div className='flex flex-col gap-6'>
-      <Card className='overflow-hidden p-0'>
-        <CardContent className='grid p-0 md:grid-cols-2'>
-          <form className='p-6 md:p-8' onSubmit={scrapeWrapper}>
-            <div className='flex flex-col gap-6'>
-              <div className='flex flex-col items-center text-center'>
-                <h1 className='text-2xl font-bold'>Enter Bookmark</h1>
-                <p className='text-muted-foreground text-balance'>
-                  Paste your bookmark url here!
-                </p>
+    <Dialog open={addBookmark} onOpenChange={() => setAddBookmark(false)} className='flex flex-col gap-6'>
+      <DialogContent className='sm:max-w-[55vw] place-self-center'>
+        <Card className='overflow-hidden p-0'>
+          <CardContent className='grid p-0 md:grid-cols-1'>
+            <form className='p-6 md:p-8' onSubmit={scrapeWrapper}>
+              <div className='flex flex-col gap-6'>
+                <div className='flex flex-col items-center text-center'>
+                  <h1 className='text-2xl font-bold'>Enter Bookmark</h1>
+                  <p className='text-muted-foreground text-balance'>
+                    Paste your bookmark url here!
+                  </p>
+                </div>
+                <div className='grid gap-3'>
+                  <Label htmlFor='url'>URL</Label>
+                  <Input
+                    id='url'
+                    type='string'
+                    placeholder='https://example.com'
+                    required
+                    onChange={(e) => setUrl(e.target.value)}
+                  />
+                </div>
+                <div className='w-[100%] h-[100%] flex flex-col items-center text-center'>
+                  <HoverMeButton type='submit' text='Submit' />
+                </div>
               </div>
-              <div className='grid gap-3'>
-                <Label htmlFor='url'>URL</Label>
-                <Input
-                  id='url'
-                  type='string'
-                  placeholder='https://example.com'
-                  required
-                  onChange={(e) => setUrl(e.target.value)}
-                />
-              </div>
-              <Button type='submit' className='w-full'>
-                Submit
-              </Button>
-            </div>
-          </form>
-          <div className='bg-muted relative hidden md:block'>
-            <img
-              src='https://images.unsplash.com/photo-1541269676894-e7edc07ec4b1'
-              alt='Image'
-              className='absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
-            />
-          </div>
-        </CardContent>
-      </Card>
-      <div className='text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4'>
-        By clicking submit, you agree to our <a href='#'>Terms of Service</a>{' '}
-        and <a href='#'>Privacy Policy</a>.
-      </div>
-    </div>
+            </form>
+            {/* <div className='bg-muted relative hidden md:block'>
+              <img
+                src='https://images.unsplash.com/photo-1541269676894-e7edc07ec4b1'
+                alt='Image'
+                className='absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
+              />
+            </div> */}
+          </CardContent>
+        </Card>
+        <div className='text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4'>
+          By clicking submit, you agree to our <a href='#'>Terms of Service</a>{' '}
+          and <a href='#'>Privacy Policy</a>.
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }
