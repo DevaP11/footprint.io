@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
 // import { Editor } from '@/components/blocks/editor-00/editor.tsx'
+// import { cn } from '@/lib/utils'
+// import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid'
 const bookmarkList = [
   {
     title: 'Data-Backed Strategy',
@@ -93,6 +95,25 @@ function App () {
         </div>
         <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} />
         {/* <Editor /> */}
+        {/* <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem]">
+          {bookmarkList.map((item, i) => (
+            <BentoGridItem
+              key={i}
+              title={item.title}
+              description={item.description}
+              // header={item.description}
+              className={cn("[&>p:text-lg]", item.className)}
+              header={
+                <img
+                  src={item.image}
+                  // className='min-w-[150%] min-h-[150%] object-cover rounded-lg'
+                  alt='Bookmark'
+                  draggable={false}
+                />
+              }
+            />
+          ))}
+        </BentoGrid> */}
         {
           tags.map((t, i) => {
             return (

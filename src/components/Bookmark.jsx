@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { useState, useEffect, useRef } from 'react'
 import bookmarkLeaf from '@/assets/bookmarks-leaf.png'
+import { cn } from '@/lib/utils'
 
 function Bookmark ({ size, id, title, description, image }) {
   const [scrollPosition, setScrollPosition] = useState(() => {
@@ -34,7 +35,12 @@ function Bookmark ({ size, id, title, description, image }) {
   }, [scrollPosition])
 
   return (
-    <div className={`relative rounded-2xl shadow-xl overflow-hidden ${sizeClasses[size]}`}>
+    <div
+      className={cn(
+        'group/bento shadow-input flex flex-col justify-between space-y-4 bg-stone-100 p-4 transition duration-200 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:shadow-none',
+        `relative rounded-2xl overflow-hidden ${sizeClasses[size]}`
+      )}
+    >
       <Card className='p-0 h-full'>
         <CardContent className='p-0 w-full h-full overflow-hidden rounded-lg'>
           <div
@@ -52,8 +58,8 @@ function Bookmark ({ size, id, title, description, image }) {
 
           {/* Title + Description Overlay */}
           <div className='absolute bottom-0 right-0 m-3 bg-neutral-200/85 text-neutral-800 rounded-md px-3 py-2 shadow-md max-w-[82%]'>
-            <div className='text-sm font-semibold truncate'>{title}</div>
-            <div className='text-xs opacity-70 line-clamp-2'>{description}</div>
+            <div className='text-sm font-semibold truncate mt-2 mb-2 text-neutral-600 dark:text-neutral-200'>{title}</div>
+            <div className='text-xs opacity-70 line-clamp-2 text-xs font-normal text-neutral-600 dark:text-neutral-300'>{description}</div>
           </div>
         </CardContent>
       </Card>
