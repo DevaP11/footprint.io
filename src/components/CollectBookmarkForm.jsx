@@ -157,6 +157,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       .then(res => {
         console.log('response', res)
         setMarkdownContent(res)
+        setAddBookmark(false)
       })
   }
 

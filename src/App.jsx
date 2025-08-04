@@ -60,21 +60,8 @@ function App () {
     console.log('rerendering....')
   }, [markdownContent])
 
-  if (markdownContent) {
-    console.log(markdownContent)
-    return (
-      <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw]'>
-        <div className='place-self-center mt-14 w-[70w] '>
-          <BearEditor
-            markdownContent={markdownContent}
-          />
-        </div>
-      </main>
-    )
-  }
-
   return (
-    <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw]'>
+    <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw] overflow-hidden h-[98vh]'>
       <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center mt-14'>
         <div className='flex flex-row  mb-0 w-full justify-between'>
           <TabsList className='bg-stone-200'>
@@ -112,7 +99,7 @@ function App () {
         </div>
         <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
         {
-          tags.map((t, i) => {
+          !markdownContent && tags.map((t, i) => {
             return (
               <TabsContent key={`tags_content_${i}`} value={t} className='w-[86vw]'>
                 <div className='grid grid-cols-4 grid-rows-4 gap-4 h-screen z-0'>
@@ -134,6 +121,13 @@ function App () {
               </TabsContent>
             )
           })
+        }
+        {
+          markdownContent && (
+            <BearEditor
+              markdownContent={markdownContent}
+            />
+          )
         }
       </Tabs>
     </main>
