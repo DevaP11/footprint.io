@@ -4,8 +4,9 @@ import { Edit3 } from 'lucide-react'
 
 const BearEditor = ({ markdownContent = '' }) => {
   const [content, setContent] = useState(markdownContent)
-
   const [isEditing, setIsEditing] = useState(false)
+
+  const colorScheme = 'light'
 
   const handlePreviewClick = () => {
     setIsEditing(true)
@@ -33,14 +34,14 @@ const BearEditor = ({ markdownContent = '' }) => {
       <div className='h-full'>
         {isEditing
           ? (
-            <div className='h-full overflow-auto max-w-4xl mx-auto px-16 py-12' data-color-mode='light'>
+            <div className='h-full overflow-auto max-w-4xl mx-auto px-16 py-12' data-color-mode={colorScheme}>
               <MDEditor
                 value={content}
                 onChange={(val) => setContent(val || '')}
                 preview='edit'
                 hideToolbar
                 height='100%'
-                data-color-mode='light'
+                data-color-mode={colorScheme}
                 onBlur={handleEditorBlur}
                 style={{
                   backgroundColor: 'white'
@@ -77,7 +78,7 @@ const BearEditor = ({ markdownContent = '' }) => {
               <div className='max-w-4xl mx-auto px-16 py-12'>
                 <div
                   className='prose prose-lg prose-gray max-w-none hover:bg-stone-50/30 transition-colors duration-200 rounded-lg p-8 -m-8'
-                  data-color-mode='light'
+                  data-color-mode={colorScheme}
                 >
                   <MDEditor.Markdown
                     source={content}
