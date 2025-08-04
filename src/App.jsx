@@ -1,13 +1,11 @@
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Bookmark from '@/components/Bookmark'
 import { Search, Plus } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
-// import { Editor } from '@/components/blocks/editor-00/editor.tsx'
-// import { cn } from '@/lib/utils'
-// import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid'
+import { Editor } from '@/components/blocks/editor-00/editor.tsx'
 const bookmarkList = [
   {
     title: 'Data-Backed Strategy',
@@ -52,13 +50,28 @@ function App () {
 
   const [activeTab, setActiveTab] = useState(tags[0])
   const [addBookmark, setAddBookmark] = useState(false)
+  const [markdownContent, setMarkdownContent] = useState('')
   const handleTabChange = (value) => {
     setActiveTab(value)
   }
 
+  useEffect(() => {
+    console.log('rerendering....')
+  }, [markdownContent])
+
+  if (markdownContent) {
+    return (
+      <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw]'>
+        <div className='place-self-center mt-14'>
+          <Editor className='w-[full]' />
+        </div>
+      </main>
+    )
+  }
+
   return (
-    <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[90vw]'>
-      <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center mt-8'>
+    <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw]'>
+      <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center mt-14'>
         <div className='flex flex-row  mb-0 w-full justify-between'>
           <TabsList className='bg-stone-200'>
             {
@@ -93,27 +106,7 @@ function App () {
             </Button>
           </div>
         </div>
-        <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} />
-        {/* <Editor /> */}
-        {/* <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem]">
-          {bookmarkList.map((item, i) => (
-            <BentoGridItem
-              key={i}
-              title={item.title}
-              description={item.description}
-              // header={item.description}
-              className={cn("[&>p:text-lg]", item.className)}
-              header={
-                <img
-                  src={item.image}
-                  // className='min-w-[150%] min-h-[150%] object-cover rounded-lg'
-                  alt='Bookmark'
-                  draggable={false}
-                />
-              }
-            />
-          ))}
-        </BentoGrid> */}
+        <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
         {
           tags.map((t, i) => {
             return (
@@ -139,7 +132,6 @@ function App () {
           })
         }
       </Tabs>
-
     </main>
   )
 }

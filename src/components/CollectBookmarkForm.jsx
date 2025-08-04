@@ -40,7 +40,7 @@ const validateUrl = (url) => {
   }
 }
 
-export default function CollectBookmarkForm ({ addBookmark, setAddBookmark }) {
+export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setMarkdownContent }) {
   const [url, setUrl] = useState('')
 
   const handleScrape = async (e) => {
@@ -145,6 +145,8 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark }) {
         url,
         title: $('title').text() || 'Scraped Content'
       })
+
+      return cleanedMarkdown
     } catch (error) {
       console.error('Scraping error:', error)
     }
@@ -153,13 +155,14 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark }) {
   const scrapeWrapper = (e) => {
     handleScrape(e)
       .then(res => {
-        console.log(res)
+        console.log('response', res)
+        setMarkdownContent(res)
       })
   }
 
   return (
     <Dialog open={addBookmark} onOpenChange={() => setAddBookmark(false)} className='flex flex-col gap-6'>
-      <DialogContent className='sm:max-w-[55vw] place-self-center'>
+      <DialogContent className='sm:max-w-[55vw] place-self-center [&>button]:hidden'>
         <Card className='overflow-hidden p-0'>
           <CardContent className='grid p-0 md:grid-cols-1'>
             <form className='p-6 md:p-8' onSubmit={scrapeWrapper}>
@@ -185,13 +188,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark }) {
                 </div>
               </div>
             </form>
-            {/* <div className='bg-muted relative hidden md:block'>
-              <img
-                src='https://images.unsplash.com/photo-1541269676894-e7edc07ec4b1'
-                alt='Image'
-                className='absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
-              />
-            </div> */}
           </CardContent>
         </Card>
         <div className='text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4'>
