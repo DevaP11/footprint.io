@@ -5,7 +5,8 @@ import { Search, Plus } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
-import { Editor } from '@/components/blocks/editor-00/editor.tsx'
+import BearEditor from '@/components/MarkdownEditor'
+
 const bookmarkList = [
   {
     title: 'Data-Backed Strategy',
@@ -60,10 +61,13 @@ function App () {
   }, [markdownContent])
 
   if (markdownContent) {
+    console.log(markdownContent)
     return (
       <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw]'>
-        <div className='place-self-center mt-14'>
-          <Editor className='w-[full]' />
+        <div className='place-self-center mt-14 w-[70w] '>
+          <BearEditor
+            markdownContent={markdownContent}
+          />
         </div>
       </main>
     )
