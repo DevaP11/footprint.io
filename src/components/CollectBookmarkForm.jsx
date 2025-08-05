@@ -7,6 +7,7 @@ import TurndownService from 'turndown'
 import { invoke } from '@tauri-apps/api/core'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { HoverMeButton } from '@/components/eldoraui/hoverMe'
+import { load } from '@tauri-apps/plugin-store'
 
 // Convert HTML to Markdown
 const turndownService = new TurndownService({
@@ -101,7 +102,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         const element = $(selector).first()
         if (element.length && element.text().trim().length > 100) {
           content = element.html() || ''
-          break
+          continue
         }
       }
 
@@ -109,7 +110,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       if (!content) {
         // Remove more unwanted elements from body
         $('header, footer, nav, aside, .header, .footer, .navigation, .sidebar, .menu, .ad, .advertisement').remove()
-        content = $('body').html() || ''
+        content = ($('body').html() + $('head').html()) || ''
       }
 
       // Add custom rules for better conversion
@@ -145,6 +146,20 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         url,
         title: $('title').text() || 'Scraped Content'
       })
+
+      const store = await load('store.json', { autoSave: false })
+      const listFromStore = (await store.get('bookmarks')) || []
+
+      listFromStore.push({
+        title: 'We live in Time',
+        description: cleanedMarkdown,
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
+        size: 'default'
+      })
+
+      await store.set('bookmarks', listFromStore)
+      console.log('saving content', listFromStore)
+      await store.save()
 
       return cleanedMarkdown
     } catch (error) {
