@@ -8,8 +8,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { load } from '@tauri-apps/plugin-store'
 
 export default function AccountMenu () {
+  const clearStore = async () => {
+    const store = await load('store.json', { autoSave: false })
+    await store.set('bookmarks', [])
+    await store.save()
+  }
+
   const hoverStyleForDropdownItem = 'flex justify-end hover:!text-stone-600 hover:!bg-stone-200'
   return (
     <DropdownMenu>
@@ -30,7 +37,21 @@ export default function AccountMenu () {
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Preferences</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Import</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Backup</DropdownMenuItem>
-        <DropdownMenuItem className={hoverStyleForDropdownItem}>Clear Bookmarks</DropdownMenuItem>
+        <DropdownMenuItem className={hoverStyleForDropdownItem}>
+          <Button
+            variant='ghost'
+            size='8'
+            className={hoverStyleForDropdownItem}
+            onClick={(e) => {
+              e.stopPropagation()
+              console.log('Clearing Bookmark')
+              clearStore()
+            }}
+          >
+            {/** Add an Are You Sure ? dialog */}
+            <span className='font-extralight text-emerald-800'>Clear Bookmarks</span>
+          </Button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
