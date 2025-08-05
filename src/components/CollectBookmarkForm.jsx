@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label'
 import * as cheerio from 'cheerio'
 import TurndownService from 'turndown'
 import { invoke } from '@tauri-apps/api/core'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { HoverMeButton } from '@/components/eldoraui/hoverMe'
 import { load } from '@tauri-apps/plugin-store'
 
@@ -178,6 +178,8 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
 
   return (
     <Dialog open={addBookmark} onOpenChange={() => setAddBookmark(false)} className='flex flex-col gap-6'>
+      <DialogTitle>Add Bookmark</DialogTitle>
+      <DialogDescription>Bookmark Creation Dialog box</DialogDescription>
       <DialogContent className='sm:max-w-[55vw] place-self-center [&>button]:hidden'>
         <Card className='overflow-hidden p-0'>
           <CardContent className='grid p-0 md:grid-cols-1'>
