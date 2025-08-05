@@ -49,7 +49,7 @@ export default function AccountMenu () {
             }}
           >
             {/** Add an Are You Sure ? dialog */}
-            <span className='font-extralight text-emerald-800'>Clear Bookmarks</span>
+            <span className='font-extralight text-red-900'>Clear Bookmarks</span>
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
