@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
 import BearEditor from '@/components/MarkdownEditor'
+import AccountMenu from '@/components/AccountMenu'
 
 // const bookmarkList = [
 //   {
@@ -97,7 +98,7 @@ function App () {
             </Button>
             <Button
               type='icon'
-              className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8  font-extralight'
+              className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
               onClick={(e) => {
                 e.stopPropagation()
                 setAddBookmark(true)
@@ -105,6 +106,7 @@ function App () {
             >
               <Plus /> Add
             </Button>
+            <AccountMenu />
           </div>
         </div>
         <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
