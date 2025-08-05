@@ -37,7 +37,7 @@ function Bookmark ({ size, id, title, description, image }) {
   return (
     <div
       className={cn(
-        'shadow-input flex flex-col justify-between space-y-4 bg-stone-100 p-1 transition duration-200 hover:shadow-2xl dark:border-white/[0.2] dark:bg-black dark:shadow-none',
+        'shadow-input flex flex-col justify-between space-y-4 bg-stone-100 p-1 transition duration-200 hover:shadow-2xl  shadow-stone-400 dark:border-white/[0.2] dark:bg-black dark:shadow-none',
         `relative rounded-2xl overflow-hidden ${sizeClasses[size]}`
       )}
     >
