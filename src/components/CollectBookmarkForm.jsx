@@ -130,6 +130,18 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         }
       })
 
+      turndownService.addRule('githubLink', {
+        filter: (node) =>
+          node.nodeName === 'A' &&
+          node.getAttribute('href')?.includes('github.com') &&
+          node.innerHTML?.trim() !== '',
+
+        replacement: (content, node) => {
+          const href = node.getAttribute('href')
+          return `**[GitHub Link: ${content}](${href})**`
+        }
+      })
+
       // Convert to markdown
       const markdown = turndownService.turndown(content)
 
