@@ -150,7 +150,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove excessive line breaks
         .replace(/^\s+|\s+$/g, '') // Trim whitespace
         .replace(/\[(\s*)\]/g, '') // Remove empty links
-        .replace(/!\[\]$$[^)]*$$/g, '') // Remove images without alt text
 
       console.log('Success !')
       console.log({
