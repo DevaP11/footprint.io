@@ -178,6 +178,7 @@ function App () {
                   const size = template[indexToCalculate]
                   return (
                     <Bookmark
+                      setMarkdownContent={setMarkdownContent}
                       key={index}
                       id={index}
                       title={bookmarkItem?.title}

@@ -1,10 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import { Edit3 } from 'lucide-react'
 
 const BearEditor = ({ markdownContent = '' }) => {
   const [content, setContent] = useState(markdownContent)
   const [isEditing, setIsEditing] = useState(false)
+
+  const imageUrls = useMemo(() => {
+    const urls = new Set()
+
+    // Matches ![alt](url)
+    const mdImageRegex = /!\[[^\]]*\]\((.*?)\)/g
+    let match
+    while ((match = mdImageRegex.exec(content)) !== null) {
+      urls.add(match[1])
+    }
+
+    // Matches bare URLs ending with common image extensions
+    const urlRegex = /(https?:\/\/[^\s]+?\.(?:png|jpe?g|gif|webp|svg))/gi
+    while ((match = urlRegex.exec(content)) !== null) {
+      urls.add(match[1])
+    }
+
+    return Array.from(urls)
+  }, [content])
 
   const colorScheme = 'light'
 
@@ -90,6 +109,31 @@ const BearEditor = ({ markdownContent = '' }) => {
                       fontFamily: 'Satoshi, sans-serif'
                     }}
                   />
+                  {/* Image Preview Gallery */}
+                  {imageUrls.length > 0 && (
+                    <div className='mt-12'>
+                      <h3 className='text-lg font-semibold text-stone-700 mb-4'>
+                        📷 Images Preview
+                      </h3>
+                      <div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
+                        {imageUrls.map((url, idx) => (
+                          <a
+                            key={idx}
+                            href={url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='block'
+                          >
+                            <img
+                              src={url}
+                              alt={`Preview ${idx + 1}`}
+                              className='w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200'
+                            />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className='text-center text-stone-400 text-sm mt-12 italic'>
                   Click anywhere to edit

@@ -143,14 +143,61 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         }
       })
 
+      // Collect all possible image URLs before turndown
+      const imageUrls = new Set()
+
+      // 1. Regular <img> tags
+      $('img').each((_, el) => {
+        const src = $(el).attr('src') || $(el).attr('data-src') || $(el).attr('data-original')
+        if (src) imageUrls.add(src)
+      })
+
+      // 2. <picture> and <source>
+      $('picture source').each((_, el) => {
+        const src = $(el).attr('srcset')
+        if (src) {
+          src.split(',').forEach(s => imageUrls.add(s.trim().split(' ')[0]))
+        }
+      })
+
+      // 3. Inline styles
+      $('[style*="background-image"]').each((_, el) => {
+        const style = $(el).attr('style')
+        const match = style.match(/url\(["']?(.*?)["']?\)/)
+        if (match && match[1]) imageUrls.add(match[1])
+      })
+
+      // 4. Open Graph / Twitter meta tags
+      $('meta[property="og:image"], meta[name="twitter:image"]').each((_, el) => {
+        const src = $(el).attr('content')
+        if (src) imageUrls.add(src)
+      })
+
+      // 5. SVG embedded images
+      $('image').each((_, el) => {
+        const href = $(el).attr('xlink:href') || $(el).attr('href')
+        if (href) imageUrls.add(href)
+      })
+
       // Convert to markdown
       const markdown = turndownService.turndown(content)
 
       // Clean up the markdown
-      const cleanedMarkdown = markdown
+      let cleanedMarkdown = markdown
         .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove excessive line breaks
         .replace(/^\s+|\s+$/g, '') // Trim whitespace
         .replace(/\[(\s*)\]/g, '') // Remove empty links
+
+      const bookmarkObject = {
+        title: 'We live in Time',
+        description: cleanedMarkdown,
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71'
+      }
+      // Append image list at the end
+      if (imageUrls.size > 0) {
+        cleanedMarkdown += '\n\n## Images \n' + [...imageUrls].map(url => `- ${url}`).join('\n')
+        bookmarkObject.image = imageUrls[0]
+      }
 
       console.log('Success !')
       console.log({
@@ -162,12 +209,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       const store = await load('store.json', { autoSave: false })
       const listFromStore = (await store.get('bookmarks')) || []
 
-      listFromStore.push({
-        title: 'We live in Time',
-        description: cleanedMarkdown,
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
-        size: 'default'
-      })
+      listFromStore.push(bookmarkObject)
 
       await store.set('bookmarks', listFromStore)
       console.log('saving content', listFromStore)
