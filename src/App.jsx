@@ -191,6 +191,8 @@ function App () {
                       description={bookmarkItem?.description}
                       image={bookmarkItem?.image}
                       size={size}
+                      bookmarkId={bookmarkItem?.id}
+                      setBookmarkId={setBookmarkId}
                     />
                   )
                 })

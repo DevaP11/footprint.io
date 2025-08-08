@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import bookmarkLeaf from '@/assets/bookmarks-leaf.png'
 import { cn } from '@/lib/utils'
 
-function Bookmark ({ size, id, title, description, image, setMarkdownContent }) {
+function Bookmark ({ size, id, title, description, image, setMarkdownContent, bookmarkId, setBookmarkId }) {
   const [scrollPosition, setScrollPosition] = useState(() => {
     const saved = window?.localStorage.getItem(`bookmark-scroll-${id}`)
     return saved ? JSON.parse(saved) : { x: 0, y: 0 }
@@ -46,6 +46,7 @@ function Bookmark ({ size, id, title, description, image, setMarkdownContent }) 
         onClick={(e) => {
           e.preventDefault()
           setMarkdownContent(description)
+          setBookmarkId(bookmarkId)
         }}
       >
         <CardContent className='p-0 w-full h-full overflow-hidden rounded-lg'>

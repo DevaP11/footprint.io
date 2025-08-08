@@ -43,7 +43,7 @@ const validateUrl = (url) => {
   }
 }
 
-export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setMarkdownContent }) {
+export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setMarkdownContent, setBookmarkId }) {
   const [url, setUrl] = useState('')
 
   const handleScrape = async (e) => {
@@ -209,6 +209,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       bookmarkObject.description = cleanedMarkdown
 
       bookmarkObject.id = uuid.v4()
+      setBookmarkId(bookmarkObject.id)
 
       const store = await load('store.json', { autoSave: false })
       const listFromStore = (await store.get('bookmarks')) || []
