@@ -117,7 +117,7 @@ const links = [
 // ]
 
 function App () {
-  const [activeTab, setActiveTab] = useState('footprint.io')
+  const [activeTab, setActiveTab] = useState('home')
   const [addBookmark, setAddBookmark] = useState(false)
   const [markdownContent, setMarkdownContent] = useState('')
   const [bookmarkList, setBookmarkList] = useState([])
@@ -128,7 +128,7 @@ function App () {
       const store = await load('store.json', { autoSave: false })
       const listFromStore = await store.get('bookmarks')
       setBookmarkList(listFromStore)
-      setActiveTab('editor')
+      markdownContent ? setActiveTab('editor') : setActiveTab('home')
     }
 
     loadList()
@@ -136,11 +136,11 @@ function App () {
 
   return (
     <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw] overflow-hidden h-[98vh]'>
-      <Tabs value={activeTab} onValueChange={() => { setActiveTab('footprint.io') }} className='place-self-center'>
+      <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }} className='place-self-center'>
         <div className='flex flex-col'>
           <div className='flex flex-row mb-0 w-full justify-between'>
             <TabsList className='bg-stone-200'>
-              <TabsTrigger value='footprint.io' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
+              <TabsTrigger value='home' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
                 footprint.io
               </TabsTrigger>
             </TabsList>
@@ -168,7 +168,7 @@ function App () {
             </div>
           </div>
           <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
-          <TabsContent value='footprint.io' className='w-[86vw]'>
+          <TabsContent value='home' className='w-[86vw]'>
             <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0'>
               {
                 bookmarkList?.map((bookmarkItem, index) => {
