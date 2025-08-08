@@ -43,15 +43,20 @@ const validateUrl = (url) => {
   }
 }
 
+const parseImages = (url) => {
+  let formattedImageUrl
+  formattedImageUrl = url.replaceAll(/\/resize:fit:\d+\//g, '/')
+  formattedImageUrl = formattedImageUrl.replaceAll(/\/format:[^/]+\//g, '/')
+  return formattedImageUrl
+}
+
 export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setMarkdownContent, setBookmarkId }) {
   const [url, setUrl] = useState('')
 
   const handleScrape = async (e) => {
     e.preventDefault()
-    console.log('')
 
     if (!url?.trim()) {
-      console.log('Please enter a URL')
       return
     }
 
@@ -74,7 +79,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
 
       // Fetch the webpage
       const html = await fetchWebpage(url)
-      console.log(html)
 
       const $ = cheerio.load(html)
 
@@ -147,14 +151,20 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
 
       // 1. Regular <img> tags
       $('img').each((_, el) => {
-        const src = $(el).attr('src') || $(el).attr('data-src') || $(el).attr('data-original')
-        if (src) imageUrls.add(src)
+        let src = $(el).attr('src') || $(el).attr('data-src') || $(el).attr('data-original')
+        const ignoreAuthorPhotos = $(el).attr('data-testid')?.includes('authorPhoto')
+        if (ignoreAuthorPhotos) { return }
+        if (src && ignoreAuthorPhotos) {
+          src = parseImages(src)
+          imageUrls.add(src)
+        }
       })
 
       // 2. <picture> and <source>
       $('picture source').each((_, el) => {
-        const src = $(el).attr('srcset')
+        let src = $(el).attr('srcset')
         if (src) {
+          src = parseImages(src)
           src.split(',').forEach(s => imageUrls.add(s.trim().split(' ')[0]))
         }
       })
@@ -163,19 +173,28 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       $('[style*="background-image"]').each((_, el) => {
         const style = $(el).attr('style')
         const match = style.match(/url\(["']?(.*?)["']?\)/)
-        if (match && match[1]) imageUrls.add(match[1])
+        if (match && match[1]) {
+          match[1] = parseImages(match[1])
+          imageUrls.add(match[1])
+        }
       })
 
       // 4. Open Graph / Twitter meta tags
       $('meta[property="og:image"], meta[name="twitter:image"]').each((_, el) => {
-        const src = $(el).attr('content')
-        if (src) imageUrls.add(src)
+        let src = $(el).attr('content')
+        if (src) {
+          src = parseImages(src)
+          imageUrls.add(src)
+        }
       })
 
       // 5. SVG embedded images
       $('image').each((_, el) => {
-        const href = $(el).attr('xlink:href') || $(el).attr('href')
-        if (href) imageUrls.add(href)
+        let href = $(el).attr('xlink:href') || $(el).attr('href')
+        if (href) {
+          href = parseImages(href)
+          imageUrls.add(href)
+        }
       })
 
       // Convert to markdown
@@ -203,9 +222,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         bookmarkObject.image = imagesArray[random]
       }
 
-      console.log([...imageUrls])
-
-      console.log('Success !')
       bookmarkObject.description = cleanedMarkdown
 
       bookmarkObject.id = uuid.v4()
