@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import { Edit3 } from 'lucide-react'
+import { load } from '@tauri-apps/plugin-store'
 
-const BearEditor = ({ markdownContent = '' }) => {
-  const [content, setContent] = useState(markdownContent)
+const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
   const [isEditing, setIsEditing] = useState(false)
 
   const imageUrls = useMemo(() => {
@@ -12,18 +12,18 @@ const BearEditor = ({ markdownContent = '' }) => {
     // Matches ![alt](url)
     const mdImageRegex = /!\[[^\]]*\]\((.*?)\)/g
     let match
-    while ((match = mdImageRegex.exec(content)) !== null) {
+    while ((match = mdImageRegex.exec(markdownContent)) !== null) {
       urls.add(match[1])
     }
 
     // Matches bare URLs ending with common image extensions
     const urlRegex = /(https?:\/\/[^\s]+?\.(?:png|jpe?g|gif|webp|svg))/gi
-    while ((match = urlRegex.exec(content)) !== null) {
+    while ((match = urlRegex.exec(markdownContent)) !== null) {
       urls.add(match[1])
     }
 
     return Array.from(urls)
-  }, [content])
+  }, [markdownContent])
 
   const colorScheme = 'light'
 
@@ -34,6 +34,23 @@ const BearEditor = ({ markdownContent = '' }) => {
   const handleEditorBlur = () => {
     // Optional: Auto-exit edit mode when clicking outside
     setIsEditing(false)
+    const updateBookmark = async () => {
+      const store = await load('store.json', { autoSave: false })
+      const listFromStore = (await store.get('bookmarks')) || []
+
+      if (!bookmarkId) {
+        console.log('Bookmark Id not found')
+        return
+      }
+
+      listFromStore
+        .find(bookmarks => bookmarks?.id === bookmarkId)
+        .description = markdownContent
+
+      await store.set('bookmarks', listFromStore)
+      await store.save()
+    }
+    updateBookmark()
   }
 
   return (
@@ -55,8 +72,8 @@ const BearEditor = ({ markdownContent = '' }) => {
           ? (
             <div className='h-full overflow-auto max-w-4xl mx-auto px-16 py-12' data-color-mode={colorScheme}>
               <MDEditor
-                value={content}
-                onChange={(val) => setContent(val || '')}
+                value={markdownContent}
+                onChange={(val) => setMarkdownContent(val || '')}
                 preview='edit'
                 hideToolbar
                 height='100%'
@@ -100,7 +117,7 @@ const BearEditor = ({ markdownContent = '' }) => {
                   data-color-mode={colorScheme}
                 >
                   <MDEditor.Markdown
-                    source={content}
+                    source={markdownContent}
                     style={{
                       backgroundColor: 'transparent',
                       color: '#374151',

@@ -9,6 +9,7 @@ import { invoke } from '@tauri-apps/api/core'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { HoverMeButton } from '@/components/eldoraui/hoverMe'
 import { load } from '@tauri-apps/plugin-store'
+import uuid from 'react-native-uuid'
 
 // Convert HTML to Markdown
 const turndownService = new TurndownService({
@@ -187,8 +188,9 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         .replace(/\[(\s*)\]/g, '') // Remove empty links
         .replace(/!\[\]$$[^)]*$$/g, '') // Remove images without alt text
 
+      const title = $('title').text()
       const bookmarkObject = {
-        title: $('title').text(),
+        title,
         description: cleanedMarkdown
       }
       // Append image list at the end
@@ -205,6 +207,8 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
 
       console.log('Success !')
       bookmarkObject.description = cleanedMarkdown
+
+      bookmarkObject.id = uuid.v4()
 
       const store = await load('store.json', { autoSave: false })
       const listFromStore = (await store.get('bookmarks')) || []

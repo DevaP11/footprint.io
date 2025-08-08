@@ -120,6 +120,7 @@ function App () {
   const [activeTab, setActiveTab] = useState('home')
   const [addBookmark, setAddBookmark] = useState(false)
   const [markdownContent, setMarkdownContent] = useState('')
+  const [bookmarkId, setBookmarkId] = useState('')
   const [bookmarkList, setBookmarkList] = useState([])
 
   useEffect(() => {
@@ -167,7 +168,12 @@ function App () {
               <AccountMenu />
             </div>
           </div>
-          <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
+          <CollectBookmarkForm
+            addBookmark={addBookmark}
+            setAddBookmark={setAddBookmark}
+            setMarkdownContent={setMarkdownContent}
+            setBookmarkId={setBookmarkId}
+          />
           <TabsContent value='home' className='w-[86vw]'>
             <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0'>
               {
@@ -194,6 +200,8 @@ function App () {
           <TabsContent key='editor' value='editor' className='w-[86vw]'>
             <BearEditor
               markdownContent={markdownContent}
+              setMarkdownContent={setMarkdownContent}
+              bookmarkId={bookmarkId}
             />
           </TabsContent>
           <FloatingDock
