@@ -8,6 +8,74 @@ import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
 import BearEditor from '@/components/MarkdownEditor'
 import AccountMenu from '@/components/AccountMenu'
+import { FloatingDock } from '@/components/ui/floating-dock'
+import {
+  IconBrandGithub,
+  IconBrandX,
+  IconExchange,
+  IconHome,
+  IconNewSection,
+  IconTerminal2
+} from '@tabler/icons-react'
+
+const links = [
+  {
+    title: 'Home',
+    icon: (
+      <IconHome className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+
+  {
+    title: 'Products',
+    icon: (
+      <IconTerminal2 className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+  {
+    title: 'Components',
+    icon: (
+      <IconNewSection className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+  {
+    title: 'Aceternity UI',
+    icon: (
+      <img
+        src='https://assets.aceternity.com/logo-dark.png'
+        width={20}
+        height={20}
+        alt='Aceternity Logo'
+      />
+    ),
+    href: '#'
+  },
+  {
+    title: 'Changelog',
+    icon: (
+      <IconExchange className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+
+  {
+    title: 'Twitter',
+    icon: (
+      <IconBrandX className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+  {
+    title: 'GitHub',
+    icon: (
+      <IconBrandGithub className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  }
+]
 
 // const bookmarkList = [
 //   {
@@ -73,79 +141,85 @@ function App () {
 
   return (
     <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw] overflow-hidden h-[98vh]'>
-      <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center mt-14'>
-        <div className='flex flex-row  mb-0 w-full justify-between'>
-          <TabsList className='bg-stone-200'>
-            {
-              tags?.map((t, i) => {
-                return (
-                  <TabsTrigger key={`tags_trigger_${i}`} value={t} className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
-                    {t}
-                  </TabsTrigger>
-                )
-              })
-            }
-          </TabsList>
-          <div className='align-middle'>
-            <Button
-              type='icon'
-              className='bg-stone-200 hover:bg-stone-100 text-black shadow-none mr-2 h-8 w-30  font-extralight'
-              onClick={(e) => {
-                e.stopPropagation()
-              }}
-            >
-              <Search /> Search
-            </Button>
-            <Button
-              type='icon'
-              className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
-              onClick={(e) => {
-                e.stopPropagation()
-                setAddBookmark(true)
-              }}
-            >
-              <Plus /> Add
-            </Button>
-            <AccountMenu />
+      <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center'>
+        <div className='flex flex-col'>
+          <div className='flex flex-row mb-0 w-full justify-between'>
+            <TabsList className='bg-stone-200'>
+              {
+                tags?.map((t, i) => {
+                  return (
+                    <TabsTrigger key={`tags_trigger_${i}`} value={t} className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
+                      {t}
+                    </TabsTrigger>
+                  )
+                })
+              }
+            </TabsList>
+            <div className='align-middle'>
+              <Button
+                type='icon'
+                className='bg-stone-200 hover:bg-stone-100 text-black shadow-none mr-2 h-8 w-30  font-extralight'
+                onClick={(e) => {
+                  e.stopPropagation()
+                }}
+              >
+                <Search /> Search
+              </Button>
+              <Button
+                type='icon'
+                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setAddBookmark(true)
+                }}
+              >
+                <Plus /> Add
+              </Button>
+              <AccountMenu />
+            </div>
           </div>
-        </div>
-        <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
-        {
-          !markdownContent && tags.map((t, i) => {
-            return (
-              <TabsContent key={`tags_content_${i}`} value={t} className='w-[86vw]'>
-                <div className='grid grid-cols-4 grid-rows-4 gap-4 h-screen z-0'>
-                  {
-                    bookmarkList?.map((bookmarkItem, index) => {
-                      const indexToCalculate = index < 5 ? index : index % 5
-                      const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
+          <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
+          {
+            !markdownContent && tags.map((t, i) => {
+              return (
+                <TabsContent key={`tags_content_${i}`} value={t} className='w-[86vw]'>
+                  <div className='grid grid-cols-4 grid-rows-4 gap-4 h-[75vh] z-0'>
+                    {
+                      bookmarkList?.map((bookmarkItem, index) => {
+                        const indexToCalculate = index < 5 ? index : index % 5
+                        const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
 
-                      const size = template[indexToCalculate]
+                        const size = template[indexToCalculate]
 
-                      return (
-                        <Bookmark
-                          key={index}
-                          id={index}
-                          title={bookmarkItem?.title}
-                          description={bookmarkItem?.description}
-                          image={bookmarkItem?.image}
-                          size={size}
-                        />
-                      )
-                    })
-                  }
-                </div>
-              </TabsContent>
+                        return (
+                          <Bookmark
+                            key={index}
+                            id={index}
+                            title={bookmarkItem?.title}
+                            description={bookmarkItem?.description}
+                            image={bookmarkItem?.image}
+                            size={size}
+                          />
+                        )
+                      })
+                    }
+                  </div>
+                </TabsContent>
+              )
+            })
+          }
+          {
+            markdownContent && (
+              <BearEditor
+                markdownContent={markdownContent}
+              />
             )
-          })
-        }
-        {
-          markdownContent && (
-            <BearEditor
-              markdownContent={markdownContent}
-            />
-          )
-        }
+          }
+          <FloatingDock
+            mobileClassName='translate-y-20' // only for demo, remove for production
+            items={links}
+          />
+        </div>
       </Tabs>
     </main>
   )
