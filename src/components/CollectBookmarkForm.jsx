@@ -196,7 +196,8 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       // Append image list at the end
       if (imageUrls.size > 0) {
         cleanedMarkdown += '\n\n## Images \n' + [...imageUrls].map(url => `- ${url}`).join('\n')
-        bookmarkObject.image = imageUrls[0]
+        console.log('Image', [...imageUrls][0])
+        bookmarkObject.image = [...imageUrls][0]
       }
 
       console.log('Success !')
@@ -205,6 +206,8 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         url,
         title: $('title').text() || 'Scraped Content'
       })
+
+      bookmarkObject.description = cleanedMarkdown
 
       const store = await load('store.json', { autoSave: false })
       const listFromStore = (await store.get('bookmarks')) || []

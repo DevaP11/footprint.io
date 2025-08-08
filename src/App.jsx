@@ -174,7 +174,7 @@ function App () {
                 bookmarkList?.map((bookmarkItem, index) => {
                   const indexToCalculate = index <= 5 ? index : index % 5
                   const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
-
+                  console.log('Bookmark', bookmarkItem)
                   const size = template[indexToCalculate]
                   return (
                     <Bookmark
