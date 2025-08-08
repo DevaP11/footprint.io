@@ -18,7 +18,7 @@ const BearEditor = ({ markdownContent = '' }) => {
   }
 
   return (
-    <div className='h-screen bg-white overflow-hidden'>
+    <div className='h-[75vh] bg-white overflow-hidden'>
       {/* Floating Edit Button */}
       {!isEditing && (
         <button

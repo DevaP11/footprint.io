@@ -117,16 +117,10 @@ const links = [
 // ]
 
 function App () {
-  const tags = ['Campaigns', 'Movies']
-
-  const [activeTab, setActiveTab] = useState(tags[0])
+  const [activeTab, setActiveTab] = useState('footprint.io')
   const [addBookmark, setAddBookmark] = useState(false)
   const [markdownContent, setMarkdownContent] = useState('')
   const [bookmarkList, setBookmarkList] = useState([])
-
-  const handleTabChange = (value) => {
-    setActiveTab(value)
-  }
 
   useEffect(() => {
     console.log('rerendering....')
@@ -134,6 +128,7 @@ function App () {
       const store = await load('store.json', { autoSave: false })
       const listFromStore = await store.get('bookmarks')
       setBookmarkList(listFromStore)
+      setActiveTab('editor')
     }
 
     loadList()
@@ -141,19 +136,13 @@ function App () {
 
   return (
     <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw] overflow-hidden h-[98vh]'>
-      <Tabs value={activeTab} onValueChange={handleTabChange} className='place-self-center'>
+      <Tabs value={activeTab} onValueChange={() => { setActiveTab('footprint.io') }} className='place-self-center'>
         <div className='flex flex-col'>
           <div className='flex flex-row mb-0 w-full justify-between'>
             <TabsList className='bg-stone-200'>
-              {
-                tags?.map((t, i) => {
-                  return (
-                    <TabsTrigger key={`tags_trigger_${i}`} value={t} className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
-                      {t}
-                    </TabsTrigger>
-                  )
-                })
-              }
+              <TabsTrigger value='footprint.io' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
+                footprint.io
+              </TabsTrigger>
             </TabsList>
             <div className='align-middle'>
               <Button
@@ -179,42 +168,34 @@ function App () {
             </div>
           </div>
           <CollectBookmarkForm addBookmark={addBookmark} setAddBookmark={setAddBookmark} setMarkdownContent={setMarkdownContent} />
-          {
-            !markdownContent && tags.map((t, i) => {
-              return (
-                <TabsContent key={`tags_content_${i}`} value={t} className='w-[86vw]'>
-                  <div className='grid grid-cols-4 grid-rows-4 gap-4 h-[75vh] z-0'>
-                    {
-                      bookmarkList?.map((bookmarkItem, index) => {
-                        const indexToCalculate = index < 5 ? index : index % 5
-                        const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
+          <TabsContent value='footprint.io' className='w-[86vw]'>
+            <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0'>
+              {
+                bookmarkList?.map((bookmarkItem, index) => {
+                  const indexToCalculate = index < 5 ? index : index % 5
+                  const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
 
-                        const size = template[indexToCalculate]
+                  const size = template[indexToCalculate]
 
-                        return (
-                          <Bookmark
-                            key={index}
-                            id={index}
-                            title={bookmarkItem?.title}
-                            description={bookmarkItem?.description}
-                            image={bookmarkItem?.image}
-                            size={size}
-                          />
-                        )
-                      })
-                    }
-                  </div>
-                </TabsContent>
-              )
-            })
-          }
-          {
-            markdownContent && (
-              <BearEditor
-                markdownContent={markdownContent}
-              />
-            )
-          }
+                  return (
+                    <Bookmark
+                      key={index}
+                      id={index}
+                      title={bookmarkItem?.title}
+                      description={bookmarkItem?.description}
+                      image={bookmarkItem?.image}
+                      size={size}
+                    />
+                  )
+                })
+              }
+            </div>
+          </TabsContent>
+          <TabsContent key='editor' value='editor' className='w-[86vw]'>
+            <BearEditor
+              markdownContent={markdownContent}
+            />
+          </TabsContent>
           <FloatingDock
             mobileClassName='translate-y-20' // only for demo, remove for production
             items={links}
