@@ -60,8 +60,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       formattedUrl = 'https://' + formattedUrl
     }
 
-    console.log(`Url formatted - ${formattedUrl}`)
-
     if (!validateUrl(formattedUrl)) {
       console.log('Please enter a valid URL')
       return
@@ -187,26 +185,25 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove excessive line breaks
         .replace(/^\s+|\s+$/g, '') // Trim whitespace
         .replace(/\[(\s*)\]/g, '') // Remove empty links
+        .replace(/!\[\]$$[^)]*$$/g, '') // Remove images without alt text
 
       const bookmarkObject = {
         title: $('title').text(),
-        description: cleanedMarkdown,
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71'
+        description: cleanedMarkdown
       }
       // Append image list at the end
       if (imageUrls.size > 0) {
-        cleanedMarkdown += '\n\n## Images \n' + [...imageUrls].map(url => `- ${url}`).join('\n')
-        console.log('Image', [...imageUrls][0])
-        bookmarkObject.image = [...imageUrls][0]
+        const imagesArray = [...imageUrls]
+
+        cleanedMarkdown += '\n\n## Images \n' + imagesArray.map(url => `- ${url}`).join('\n')
+
+        const random = Math.floor(Math.random() * imagesArray?.length)
+        bookmarkObject.image = imagesArray[random]
       }
 
-      console.log('Success !')
-      console.log({
-        markdown: cleanedMarkdown,
-        url,
-        title: $('title').text() || 'Scraped Content'
-      })
+      console.log([...imageUrls])
 
+      console.log('Success !')
       bookmarkObject.description = cleanedMarkdown
 
       const store = await load('store.json', { autoSave: false })
@@ -215,7 +212,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       listFromStore.push(bookmarkObject)
 
       await store.set('bookmarks', listFromStore)
-      console.log('saving content', listFromStore)
       await store.save()
 
       return cleanedMarkdown
@@ -227,7 +223,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
   const scrapeWrapper = (e) => {
     handleScrape(e)
       .then(res => {
-        console.log('response', res)
         setMarkdownContent(res)
         setAddBookmark(false)
       })
