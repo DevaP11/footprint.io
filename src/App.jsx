@@ -172,11 +172,10 @@ function App () {
             <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0'>
               {
                 bookmarkList?.map((bookmarkItem, index) => {
-                  const indexToCalculate = index < 5 ? index : index % 5
+                  const indexToCalculate = index <= 5 ? index : index % 5
                   const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
 
                   const size = template[indexToCalculate]
-
                   return (
                     <Bookmark
                       key={index}
