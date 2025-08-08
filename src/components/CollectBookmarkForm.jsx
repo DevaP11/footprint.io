@@ -189,7 +189,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         .replace(/\[(\s*)\]/g, '') // Remove empty links
 
       const bookmarkObject = {
-        title: 'We live in Time',
+        title: $('title').text(),
         description: cleanedMarkdown,
         image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71'
       }
