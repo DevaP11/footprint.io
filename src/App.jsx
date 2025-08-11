@@ -2,7 +2,7 @@ import './App.css'
 import { load } from '@tauri-apps/plugin-store'
 import { useEffect, useState } from 'react'
 import Bookmark from '@/components/Bookmark'
-import { Search, Plus } from 'lucide-react'
+import { Search, Plus, Menu } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
@@ -119,6 +119,7 @@ const links = [
 function App () {
   const [activeTab, setActiveTab] = useState('home')
   const [addBookmark, setAddBookmark] = useState(false)
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false)
   const [markdownContent, setMarkdownContent] = useState('')
   const [bookmarkId, setBookmarkId] = useState('')
   const [bookmarkList, setBookmarkList] = useState([])
@@ -165,7 +166,17 @@ function App () {
               >
                 <Plus /> Add
               </Button>
-              <AccountMenu />
+              <Button
+                type='icon'
+                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setIsAccountMenuOpen(!isAccountMenuOpen)
+                }}
+              >
+                <Menu />
+              </Button>
+              <AccountMenu isAccountMenuOpen={isAccountMenuOpen} setIsAccountMenuOpen={setIsAccountMenuOpen} />
             </div>
           </div>
           <CollectBookmarkForm

@@ -1,4 +1,3 @@
-import { Menu } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { load } from '@tauri-apps/plugin-store'
 
-export default function AccountMenu () {
+export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen }) {
   const clearStore = async () => {
     const store = await load('store.json', { autoSave: false })
     await store.set('bookmarks', [])
@@ -19,19 +18,9 @@ export default function AccountMenu () {
 
   const hoverStyleForDropdownItem = 'flex justify-end hover:!text-stone-600 hover:!bg-stone-200'
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button
-          type='icon'
-          className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
-          onClick={(e) => {
-            e.stopPropagation()
-          }}
-        >
-          <Menu />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-42 mt-1 mr-2 p-2 font-extralight text-xs bg-stone-100' align='end'>
+    <DropdownMenu open={isAccountMenuOpen} onOpenChange={() => { setIsAccountMenuOpen(!isAccountMenuOpen) }}>
+      <DropdownMenuTrigger asChild={false} />
+      <DropdownMenuContent className='w-42 mt-2 mr-2 p-2 font-extralight text-xs bg-stone-100' align='end'>
         <DropdownMenuLabel className='flex justify-end'>Hi Deva !</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Preferences</DropdownMenuItem>
