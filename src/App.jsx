@@ -139,7 +139,7 @@ function App () {
     <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw] overflow-hidden h-[98vh]'>
       <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }} className='place-self-center'>
         <div className='flex flex-col'>
-          <div className='flex flex-row mb-0 w-full justify-between'>
+          <div className='flex flex-row mb-0 w-full justify-between mb-2'>
             <TabsList className='bg-stone-200'>
               <TabsTrigger value='home' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
                 footprint.io
