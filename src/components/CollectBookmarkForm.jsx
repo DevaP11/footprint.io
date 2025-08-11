@@ -220,7 +220,8 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         .replace(/\[#\]\([^)]*\)/g, '')
 
       const title = $('post-title').text() || $('title').text()
-      cleanedMarkdown = '\n# ' + title + '\n\n\n' + cleanedMarkdown
+
+      cleanedMarkdown = cleanedMarkdown?.startsWith('#') ? cleanedMarkdown : '\n# ' + title + '\n\n\n' + cleanedMarkdown
 
       const bookmarkObject = {
         title,

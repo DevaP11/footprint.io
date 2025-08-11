@@ -2,7 +2,7 @@ import './App.css'
 import { load } from '@tauri-apps/plugin-store'
 import { useEffect, useState } from 'react'
 import Bookmark from '@/components/Bookmark'
-import { Search, Plus, Menu } from 'lucide-react'
+import { Search, Plus, Menu, PackageOpen } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
@@ -149,12 +149,12 @@ function App () {
             <div className='align-middle'>
               <Button
                 type='icon'
-                className='bg-stone-200 hover:bg-stone-100 text-black shadow-none mr-2 h-8 w-30  font-extralight'
+                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 w-30  font-extralight'
                 onClick={(e) => {
                   e.stopPropagation()
                 }}
               >
-                <Search /> Search
+                <Search strokeWidth={1} /> Search
               </Button>
               <Button
                 type='icon'
@@ -164,7 +164,7 @@ function App () {
                   setAddBookmark(true)
                 }}
               >
-                <Plus /> Add
+                <Plus strokeWidth={1} /> Add
               </Button>
               <Button
                 type='icon'
@@ -174,7 +174,7 @@ function App () {
                   setIsAccountMenuOpen(!isAccountMenuOpen)
                 }}
               >
-                <Menu />
+                <Menu strokeWidth={1} />
               </Button>
               <AccountMenu isAccountMenuOpen={isAccountMenuOpen} setIsAccountMenuOpen={setIsAccountMenuOpen} />
             </div>
@@ -186,29 +186,40 @@ function App () {
             setBookmarkId={setBookmarkId}
           />
           <TabsContent value='home' className='w-[86vw]'>
-            <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0'>
-              {
-                bookmarkList?.map((bookmarkItem, index) => {
-                  const indexToCalculate = index <= 5 ? index : index % 5
-                  const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
-                  console.log('Bookmark', bookmarkItem)
-                  const size = template[indexToCalculate]
-                  return (
-                    <Bookmark
-                      setMarkdownContent={setMarkdownContent}
-                      key={index}
-                      id={index}
-                      title={bookmarkItem?.title}
-                      description={bookmarkItem?.description}
-                      image={bookmarkItem?.image}
-                      size={size}
-                      bookmarkId={bookmarkItem?.id}
-                      setBookmarkId={setBookmarkId}
-                    />
-                  )
-                })
-              }
-            </div>
+            {bookmarkList?.length === 0 &&
+              (
+                <div className='grid grid-cols-1 grid-rows-1 h-[75vh]'>
+                  <span className='place-self-center text-stone-600'>
+                    <PackageOpen size={48} strokeWidth={0.5} />
+                  </span>
+                </div>
+              )}
+            {bookmarkList?.length !== 0 &&
+              (
+                <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0'>
+                  {
+                    bookmarkList?.map((bookmarkItem, index) => {
+                      const indexToCalculate = index <= 5 ? index : index % 5
+                      const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
+                      console.log('Bookmark', bookmarkItem)
+                      const size = template[indexToCalculate]
+                      return (
+                        <Bookmark
+                          setMarkdownContent={setMarkdownContent}
+                          key={index}
+                          id={index}
+                          title={bookmarkItem?.title}
+                          description={bookmarkItem?.description}
+                          image={bookmarkItem?.image}
+                          size={size}
+                          bookmarkId={bookmarkItem?.id}
+                          setBookmarkId={setBookmarkId}
+                        />
+                      )
+                    })
+                  }
+                </div>
+              )}
           </TabsContent>
           <TabsContent key='editor' value='editor' className='w-[86vw]'>
             <BearEditor
