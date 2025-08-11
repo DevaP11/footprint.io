@@ -9,13 +9,7 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
   const imageUrls = useMemo(() => {
     const urls = new Set()
 
-    // Matches ![alt](url)
-    const mdImageRegex = /!\[[^\]]*\]\((.*?)\)/g
     let match
-    while ((match = mdImageRegex.exec(markdownContent)) !== null) {
-      urls.add(match[1])
-    }
-
     // Matches bare URLs ending with common image extensions
     const urlRegex = /(https?:\/\/[^\s]+?\.(?:png|jpe?g|gif|webp|svg))/gi
     while ((match = urlRegex.exec(markdownContent)) !== null) {
@@ -47,7 +41,6 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
         .find(bookmarks => bookmarks?.id === bookmarkId)
         .description = markdownContent
 
-      await store.set('bookmarks', listFromStore)
       await store.save()
     }
     updateBookmark()

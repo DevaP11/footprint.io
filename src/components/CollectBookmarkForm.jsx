@@ -99,6 +99,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         '#content',
         '.main-content',
         '.post-body',
+        '.post-title',
         '.article-body'
       ]
 
@@ -200,14 +201,27 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       // Convert to markdown
       const markdown = turndownService.turndown(content)
 
+      let baseUrl
+      if (url.includes('https://')) {
+        baseUrl = 'https://' + url.split('https://')?.[1]?.split('/')?.[0]
+      }
+
+      if (url.includes('http://')) {
+        baseUrl = 'http://' + url.split('http://')?.[1]?.split('/')?.[0]
+      }
+
       // Clean up the markdown
       let cleanedMarkdown = markdown
         .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove excessive line breaks
         .replace(/^\s+|\s+$/g, '') // Trim whitespace
         .replace(/\[(\s*)\]/g, '') // Remove empty links
         .replace(/!\[\]$$[^)]*$$/g, '') // Remove images without alt text
+        .replace(/!\[([^\]]*)\]\((?!https?:\/\/|baseUrl\/)([^)]+)\)/g, `![$1](${baseUrl}/$2)`)
+        .replace(/\[#\]\(#[^)]*\)/g, '')
 
-      const title = $('title').text()
+      const title = $('post-title').text() || $('title').text()
+      cleanedMarkdown = '\n# ' + title + '\n\n\n' + cleanedMarkdown
+
       const bookmarkObject = {
         title,
         description: cleanedMarkdown
@@ -216,7 +230,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       if (imageUrls.size > 0) {
         const imagesArray = [...imageUrls]
 
-        cleanedMarkdown += '\n\n## Images \n' + imagesArray.map(url => `- ${url}`).join('\n')
+        cleanedMarkdown += '\n\n## Image Links \n' + imagesArray.map(url => `- ${url}`).join('\n')
 
         const random = Math.floor(Math.random() * imagesArray?.length)
         bookmarkObject.image = imagesArray[random]
