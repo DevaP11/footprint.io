@@ -122,9 +122,9 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
                   {/* Image Preview Gallery */}
                   {imageUrls.length > 0 && (
                     <div className='mt-12'>
-                      <h3 className='text-lg font-semibold text-stone-700 mb-4'>
+                      <h2 className='text-lg font-semibold text-stone-700 mb-4'>
                         Images Preview
-                      </h3>
+                      </h2>
                       <div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
                         {imageUrls.map((url, idx) => (
                           <a
