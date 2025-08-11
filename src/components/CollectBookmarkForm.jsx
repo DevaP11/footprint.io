@@ -253,8 +253,8 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
     <Dialog open={addBookmark} onOpenChange={() => setAddBookmark(false)} className='flex flex-col gap-3'>
       <DialogTitle />
       <DialogDescription />
-      <DialogContent className='sm:max-w-[55vw] place-self-center [&>button]:hidden  rounded-3xl p-4 m-1'>
-        <Card className='relative h-full rounded-2xl border p-0 md:rounded-3xl md:p-0'>
+      <DialogContent className='sm:max-w-[55vw] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1'>
+        <Card className='relative h-full rounded-2xl rounded-[var(--radius-inner)] p-0 md:p-0'>
           <GlowingEffect
             blur={0}
             borderWidth={3}
