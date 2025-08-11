@@ -43,8 +43,8 @@ body {
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
-    --radius-inner: 20px;
-    --padding-value: 8px;
+    --radius-inner: 36px;
+    --padding-value: 12px;
 }
 
 :root {
