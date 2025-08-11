@@ -217,7 +217,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
         .replace(/\[(\s*)\]/g, '') // Remove empty links
         .replace(/!\[\]$$[^)]*$$/g, '') // Remove images without alt text
         .replace(/!\[([^\]]*)\]\((?!https?:\/\/|baseUrl\/)([^)]+)\)/g, `![$1](${baseUrl}/$2)`)
-        .replace(/\[#\]\(#[^)]*\)/g, '')
+        .replace(/\[#\]\([^)]*\)/g, '')
 
       const title = $('post-title').text() || $('title').text()
       cleanedMarkdown = '\n# ' + title + '\n\n\n' + cleanedMarkdown
