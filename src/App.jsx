@@ -75,7 +75,6 @@ function chunkArray (arr, chunkSize) {
   for (let i = 0; i < arr.length; i += chunkSize) {
     result.push(arr.slice(i, i + chunkSize))
   }
-  console.log(result)
   return result
 }
 
