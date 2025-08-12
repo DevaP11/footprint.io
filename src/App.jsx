@@ -87,6 +87,7 @@ function chunkArray (arr, chunkSize) {
 }
 
 function App () {
+  const [collection, setCollection] = useState('home')
   const [activeTab, setActiveTab] = useState('home')
   const [addBookmark, setAddBookmark] = useState(false)
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false)
@@ -98,7 +99,8 @@ function App () {
     console.log('rerendering....')
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
-      const listFromStore = await store.get('bookmarks')
+      let listFromStore = await store.get('bookmarks')
+      listFromStore = listFromStore?.filter(bookmark => bookmark.collection?.includes(collection))
       setBookmarkList(listFromStore)
       markdownContent ? setActiveTab('editor') : setActiveTab('home')
     }
@@ -213,6 +215,7 @@ function App () {
       </Tabs>
       <FloatingDock
         items={links}
+        setCollection={setCollection}
       />
     </main>
   )
