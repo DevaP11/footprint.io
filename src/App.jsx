@@ -77,44 +77,14 @@ const links = [
   }
 ]
 
-// const bookmarkList = [
-//   {
-//     title: 'Data-Backed Strategy',
-//     description: 'We craft marketing plans built on real insights, not guesswork—so every move has purpose.',
-//     image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173',
-//     size: 'large'
-//   },
-//   {
-//     title: 'Targeted Campaigns',
-//     description: 'Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.Reach the right audience at the right time with campaigns that convert across every platform.',
-//     image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
-//     size: 'wide'
-//   },
-//   {
-//     title: 'Social Media Management',
-//     description: 'From content calendars to engagement boosts.',
-//     image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71',
-//     size: 'default'
-//   },
-//   {
-//     title: 'SEO & Content Marketing',
-//     description: 'Boost visibility and authority with content that ranks, resonates, and delivers long-term value.',
-//     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
-//     size: 'tall'
-//   },
-//   {
-//     title: 'Creative Branding',
-//     description: 'Stand out with bold visuals, sharp messaging, and a brand identity that sticks.',
-//     image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5',
-//     size: 'wide'
-//   },
-//   {
-//     title: 'Performance Analytics',
-//     description: 'Track results in real-time and adapt fast—because great marketing never stands still.',
-//     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
-//     size: 'default'
-//   }
-// ]
+function chunkArray (arr, chunkSize) {
+  const result = []
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    result.push(arr.slice(i, i + chunkSize))
+  }
+  console.log(result)
+  return result
+}
 
 function App () {
   const [activeTab, setActiveTab] = useState('home')
@@ -136,9 +106,10 @@ function App () {
     loadList()
   }, [markdownContent]) /** Change every time a markdown content is set */
 
+  const isOverflowHidden = activeTab === 'editor' ? 'overflow-hidden' : ''
   return (
-    <main className='grid grid-cols-1 gap-4 bg-background text-foreground mt-4 place-self-center max-w-[100vw] overflow-hidden h-[98vh]'>
-      <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }} className='place-self-center'>
+    <main className={`m-24 ${isOverflowHidden}`}>
+      <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
         <div className='flex flex-col'>
           <div className='flex flex-row mb-0 w-full justify-between mb-2'>
             <TabsList className='bg-stone-200'>
@@ -186,40 +157,50 @@ function App () {
             setBookmarkId={setBookmarkId}
           />
           <TabsContent value='home' className='w-[86vw]'>
-            {bookmarkList?.length === 0 &&
-              (
+            {
+              bookmarkList?.length === 0 && (
                 <div className='grid grid-cols-1 grid-rows-1 h-[75vh]'>
                   <span className='place-self-center text-stone-600'>
                     <PackageOpen size={48} strokeWidth={0.5} />
                   </span>
                 </div>
-              )}
-            {bookmarkList?.length !== 0 &&
-              (
-                <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0'>
+              )
+            }
+            {
+              bookmarkList?.length !== 0 && (
+                <div className='flex flex-col -space-y-36'>
                   {
-                    bookmarkList?.map((bookmarkItem, index) => {
-                      const indexToCalculate = index <= 5 ? index : index % 5
-                      const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
-                      console.log('Bookmark', bookmarkItem)
-                      const size = template[indexToCalculate]
-                      return (
-                        <Bookmark
-                          setMarkdownContent={setMarkdownContent}
-                          key={index}
-                          id={index}
-                          title={bookmarkItem?.title}
-                          description={bookmarkItem?.description}
-                          image={bookmarkItem?.image}
-                          size={size}
-                          bookmarkId={bookmarkItem?.id}
-                          setBookmarkId={setBookmarkId}
-                        />
-                      )
-                    })
+                    chunkArray(bookmarkList, 6)
+                      ?.map((bookmarkArray, index) => {
+                        return (
+                          <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0 mt-0' key={`tag-${index}`}>
+                            {
+                              bookmarkArray?.map((bookmarkItem, index) => {
+                                const indexToCalculate = index <= 5 ? index : index % 5
+                                const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
+                                const size = template[indexToCalculate]
+                                return (
+                                  <Bookmark
+                                    setMarkdownContent={setMarkdownContent}
+                                    key={index}
+                                    id={index}
+                                    title={bookmarkItem?.title}
+                                    description={bookmarkItem?.description}
+                                    image={bookmarkItem?.image}
+                                    size={size}
+                                    bookmarkId={bookmarkItem?.id}
+                                    setBookmarkId={setBookmarkId}
+                                  />
+                                )
+                              })
+                            }
+                          </div>
+                        )
+                      })
                   }
                 </div>
-              )}
+              )
+            }
           </TabsContent>
           <TabsContent key='editor' value='editor' className='w-[86vw]'>
             <BearEditor
