@@ -57,7 +57,11 @@ const FloatingDockMobile = ({
               >
                 <button
                   onClick={() => {
-                    setCollection(item.title?.toLowerCase())
+                    if (item.onClick) {
+                      item.onClick()
+                    } else {
+                      setCollection(item.title?.toLowerCase())
+                    }
                   }}
                   className='flex h-10 w-10 items-center justify-center rounded-full bg-stone-50 dark:bg-stone-900'
                 >
@@ -97,7 +101,11 @@ const FloatingDockDesktop = ({
         <button
           key={item.title}
           onClick={() => {
-            setCollection(item.title?.toLowerCase())
+            if (item.onClick) {
+              item.onClick()
+            } else {
+              setCollection(item.title?.toLowerCase())
+            }
           }}
         >
           <IconContainer mouseX={mouseX} key={item.title} {...item} />

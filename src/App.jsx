@@ -9,7 +9,8 @@ import CollectBookmarkForm from '@/components/CollectBookmarkForm'
 import BearEditor from '@/components/MarkdownEditor'
 import AccountMenu from '@/components/AccountMenu'
 import { FloatingDock } from '@/components/ui/floating-dock'
-import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2 } from '@tabler/icons-react'
+import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
+
 const links = [
   {
     title: 'Home',
@@ -86,13 +87,37 @@ function App () {
   const [markdownContent, setMarkdownContent] = useState('')
   const [bookmarkId, setBookmarkId] = useState('')
   const [bookmarkList, setBookmarkList] = useState([])
+  const [isEditing, setIsEditing] = useState(false)
+
+  const editButton = {
+    title: 'Edit',
+    icon: (
+      <IconEdit className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#',
+    onClick: () => {
+      setIsEditing(true)
+    }
+  }
+
+  const previewButton = {
+    title: 'Preview',
+    icon: (
+      <IconBook className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#',
+    onClick: () => {
+      setIsEditing(false)
+    }
+  }
+
+  const markdownMenu = isEditing ? [previewButton] : [editButton]
 
   useEffect(() => {
     console.log('rerendering....')
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
-      console.log('List', listFromStore)
       listFromStore = listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase())
       setBookmarkList(listFromStore)
       markdownContent ? setActiveTab('editor') : setActiveTab('home')
@@ -202,14 +227,20 @@ function App () {
               markdownContent={markdownContent}
               setMarkdownContent={setMarkdownContent}
               bookmarkId={bookmarkId}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
             />
           </TabsContent>
         </div>
       </Tabs>
-      <FloatingDock
-        items={links}
-        setCollection={setCollection}
-      />
+      <div className='flex flex-row justify-center'>
+        <FloatingDock
+          desktopClassName='fixed bottom-6'
+          mobileClassName='fixed bottom-6'
+          items={activeTab === 'editor' ? markdownMenu : links}
+          setCollection={setCollection}
+        />
+      </div>
     </main>
   )
 }

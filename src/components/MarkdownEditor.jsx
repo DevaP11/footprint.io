@@ -1,11 +1,8 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import MDEditor from '@uiw/react-md-editor'
-import { Edit3 } from 'lucide-react'
 import { load } from '@tauri-apps/plugin-store'
 
-const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
-  const [isEditing, setIsEditing] = useState(false)
-
+const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing, setIsEditing }) => {
   const imageUrls = useMemo(() => {
     const urls = new Set()
 
@@ -25,39 +22,30 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
     setIsEditing(true)
   }
 
+  const updateBookmark = async () => {
+    const store = await load('store.json', { autoSave: false })
+    const listFromStore = (await store.get('bookmarks')) || []
+
+    if (!bookmarkId) {
+      console.log('Bookmark Id not found')
+      return
+    }
+
+    listFromStore
+      .find(bookmarks => bookmarks?.id === bookmarkId)
+      .description = markdownContent
+
+    await store.save()
+  }
+
   const handleEditorBlur = () => {
     // Optional: Auto-exit edit mode when clicking outside
     setIsEditing(false)
-    const updateBookmark = async () => {
-      const store = await load('store.json', { autoSave: false })
-      const listFromStore = (await store.get('bookmarks')) || []
-
-      if (!bookmarkId) {
-        console.log('Bookmark Id not found')
-        return
-      }
-
-      listFromStore
-        .find(bookmarks => bookmarks?.id === bookmarkId)
-        .description = markdownContent
-
-      await store.save()
-    }
     updateBookmark()
   }
 
   return (
     <div className='h-[75vh] bg-white overflow-hidden'>
-      {/* Floating Edit Button */}
-      {!isEditing && (
-        <button
-          onClick={handlePreviewClick}
-          className='fixed bottom-6 right-6 z-10 bg-stone-500 hover:bg-stone-600 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105'
-          title='Edit Document'
-        >
-          <Edit3 size={20} />
-        </button>
-      )}
 
       {/* Editor/Preview Area */}
       <div className='h-full'>
@@ -66,7 +54,10 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
             <div className='h-full overflow-auto max-w-4xl mx-auto px-16 py-12' data-color-mode={colorScheme}>
               <MDEditor
                 value={markdownContent}
-                onChange={(val) => setMarkdownContent(val || '')}
+                onChange={(val) => {
+                  setMarkdownContent(val || '')
+                  updateBookmark()
+                }}
                 preview='edit'
                 hideToolbar
                 height='100%'
@@ -91,12 +82,6 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId }) => {
                   autoFocus: true
                 }}
               />
-              <button
-                onClick={() => setIsEditing(false)}
-                className='fixed bottom-6 right-6 bg-stone-800 hover:bg-stone-900 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-200 text-sm font-medium'
-              >
-                Done
-              </button>
             </div>
             )
           : (
