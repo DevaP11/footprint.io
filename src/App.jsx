@@ -239,6 +239,7 @@ function App () {
           mobileClassName='fixed bottom-6'
           items={activeTab === 'editor' ? markdownMenu : links}
           setCollection={setCollection}
+          setActiveTab={setActiveTab}
         />
       </div>
     </main>

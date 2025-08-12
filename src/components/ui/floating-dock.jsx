@@ -14,12 +14,13 @@ export const FloatingDock = ({
   items,
   desktopClassName,
   mobileClassName,
-  setCollection
+  setCollection,
+  setActiveTab
 }) => {
   return (
     <>
-      <FloatingDockDesktop items={items} className={desktopClassName} setCollection={setCollection} />
-      <FloatingDockMobile items={items} className={mobileClassName} setCollection={setCollection} />
+      <FloatingDockDesktop items={items} className={desktopClassName} setCollection={setCollection} setActiveTab={setActiveTab} />
+      <FloatingDockMobile items={items} className={mobileClassName} setCollection={setCollection} setActiveTab={setActiveTab} />
     </>
   )
 }
@@ -27,7 +28,8 @@ export const FloatingDock = ({
 const FloatingDockMobile = ({
   items,
   className,
-  setCollection
+  setCollection,
+  setActiveTab
 }) => {
   const [open, setOpen] = useState(false)
   return (
@@ -57,6 +59,7 @@ const FloatingDockMobile = ({
               >
                 <button
                   onClick={() => {
+                    setActiveTab('home')
                     if (item.onClick) {
                       item.onClick()
                     } else {
@@ -85,7 +88,8 @@ const FloatingDockMobile = ({
 const FloatingDockDesktop = ({
   items,
   className,
-  setCollection
+  setCollection,
+  setActiveTab
 }) => {
   const mouseX = useMotionValue(Infinity)
   return (
@@ -101,6 +105,7 @@ const FloatingDockDesktop = ({
         <button
           key={item.title}
           onClick={() => {
+            setActiveTab('home')
             if (item.onClick) {
               item.onClick()
             } else {
