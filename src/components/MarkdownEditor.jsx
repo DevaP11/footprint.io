@@ -35,6 +35,7 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
       .find(bookmarks => bookmarks?.id === bookmarkId)
       .description = markdownContent
 
+    await store.set('bookmarks', listFromStore)
     await store.save()
   }
 
