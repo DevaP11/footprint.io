@@ -13,12 +13,13 @@ import { useRef, useState } from 'react'
 export const FloatingDock = ({
   items,
   desktopClassName,
-  mobileClassName
+  mobileClassName,
+  setCollection
 }) => {
   return (
     <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
+      <FloatingDockDesktop items={items} className={desktopClassName} setCollection={setCollection} />
+      <FloatingDockMobile items={items} className={mobileClassName} setCollection={setCollection} />
     </>
   )
 }
@@ -79,7 +80,8 @@ const FloatingDockMobile = ({
 
 const FloatingDockDesktop = ({
   items,
-  className
+  className,
+  setCollection
 }) => {
   const mouseX = useMotionValue(Infinity)
   return (
@@ -92,7 +94,14 @@ const FloatingDockDesktop = ({
       )}
     >
       {items.map((item) => (
-        <IconContainer mouseX={mouseX} key={item.title} {...item} />
+        <button
+          key={item.title}
+          onClick={() => {
+            setCollection(item.title?.toLowerCase())
+          }}
+        >
+          <IconContainer mouseX={mouseX} key={item.title} {...item} />
+        </button>
       ))}
     </motion.div>
   )

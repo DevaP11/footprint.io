@@ -9,15 +9,7 @@ import CollectBookmarkForm from '@/components/CollectBookmarkForm'
 import BearEditor from '@/components/MarkdownEditor'
 import AccountMenu from '@/components/AccountMenu'
 import { FloatingDock } from '@/components/ui/floating-dock'
-import {
-  IconBrandGithub,
-  IconBrandX,
-  IconExchange,
-  IconHome,
-  IconNewSection,
-  IconTerminal2
-} from '@tabler/icons-react'
-
+import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2 } from '@tabler/icons-react'
 const links = [
   {
     title: 'Home',
@@ -100,13 +92,14 @@ function App () {
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
-      listFromStore = listFromStore?.filter(bookmark => bookmark.collection?.includes(collection))
+      console.log('List', listFromStore)
+      listFromStore = listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase())
       setBookmarkList(listFromStore)
       markdownContent ? setActiveTab('editor') : setActiveTab('home')
     }
 
     loadList()
-  }, [markdownContent]) /** Change every time a markdown content is set */
+  }, [markdownContent, collection]) /** Change every time a markdown content is set */
 
   // const isOverflowHidden = activeTab === 'editor' ? 'overflow-hidden' : 'overflow-fixed'
   return (
@@ -214,6 +207,8 @@ function App () {
         </div>
       </Tabs>
       <FloatingDock
+        desktopClassName='mt-12'
+        mobileClassName='mt-12'
         items={links}
         setCollection={setCollection}
       />
