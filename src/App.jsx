@@ -168,7 +168,7 @@ function App () {
             }
             {
               bookmarkList?.length !== 0 && (
-                <div className='flex flex-col -space-y-36'>
+                <div className='flex flex-col -space-y-40'>
                   {
                     chunkArray(bookmarkList, 6)
                       ?.map((bookmarkArray, index) => {
