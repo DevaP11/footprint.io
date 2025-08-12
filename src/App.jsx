@@ -173,7 +173,7 @@ function App () {
                     chunkArray(bookmarkList, 6)
                       ?.map((bookmarkArray, index) => {
                         return (
-                          <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0 mt-0' key={`tag-${index}`}>
+                          <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0 mt-0' key={`bookmark-${index}`}>
                             {
                               bookmarkArray?.map((bookmarkItem, index) => {
                                 const indexToCalculate = index <= 5 ? index : index % 5
