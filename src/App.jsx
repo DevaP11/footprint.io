@@ -207,8 +207,6 @@ function App () {
         </div>
       </Tabs>
       <FloatingDock
-        desktopClassName='mt-12'
-        mobileClassName='mt-12'
         items={links}
         setCollection={setCollection}
       />
