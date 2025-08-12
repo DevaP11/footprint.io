@@ -106,9 +106,9 @@ function App () {
     loadList()
   }, [markdownContent]) /** Change every time a markdown content is set */
 
-  const isOverflowHidden = activeTab === 'editor' ? 'overflow-hidden' : ''
+  // const isOverflowHidden = activeTab === 'editor' ? 'overflow-hidden' : 'overflow-fixed'
   return (
-    <main className={`m-24 ${isOverflowHidden}`}>
+    <main className='ml-[8vw] mr-[8vw] mt-8 overflow-hidden w-[84vw]'>
       <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
         <div className='flex flex-col'>
           <div className='flex flex-row mb-0 w-full justify-between mb-2'>
@@ -156,7 +156,7 @@ function App () {
             setMarkdownContent={setMarkdownContent}
             setBookmarkId={setBookmarkId}
           />
-          <TabsContent value='home' className='w-[86vw]'>
+          <TabsContent value='home'>
             {
               bookmarkList?.length === 0 && (
                 <div className='grid grid-cols-1 grid-rows-1 h-[75vh]'>
@@ -168,12 +168,12 @@ function App () {
             }
             {
               bookmarkList?.length !== 0 && (
-                <div className='flex flex-col -space-y-40'>
+                <div className='flex flex-col'>
                   {
                     chunkArray(bookmarkList, 6)
                       ?.map((bookmarkArray, index) => {
                         return (
-                          <div className='grid grid-cols-4 grid-rows-4 h-[75vh] gap-4 z-0 mt-0' key={`bookmark-${index}`}>
+                          <div className='grid grid-cols-4 auto-rows-fr h-[75vh] gap-4 z-0 mt-0' key={`bookmark-${index}`}>
                             {
                               bookmarkArray?.map((bookmarkItem, index) => {
                                 const indexToCalculate = index <= 5 ? index : index % 5
@@ -202,19 +202,18 @@ function App () {
               )
             }
           </TabsContent>
-          <TabsContent key='editor' value='editor' className='w-[86vw]'>
+          <TabsContent key='editor' value='editor'>
             <BearEditor
               markdownContent={markdownContent}
               setMarkdownContent={setMarkdownContent}
               bookmarkId={bookmarkId}
             />
           </TabsContent>
-          <FloatingDock
-            mobileClassName='translate-y-20' // only for demo, remove for production
-            items={links}
-          />
         </div>
       </Tabs>
+      <FloatingDock
+        items={links}
+      />
     </main>
   )
 }
