@@ -124,7 +124,6 @@ function App () {
     loadList()
   }, [markdownContent, collection]) /** Change every time a markdown content  is set or a collection is selected */
 
-  // const isOverflowHidden = activeTab === 'editor' ? 'overflow-hidden' : 'overflow-fixed'
   return (
     <main className='ml-[8vw] mr-[8vw] mt-8 overflow-hidden w-[84vw]'>
       <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
