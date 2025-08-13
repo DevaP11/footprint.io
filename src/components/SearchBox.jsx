@@ -1,0 +1,239 @@
+import { useEffect, useState, useMemo, useCallback } from 'react'
+import MiniSearch from 'minisearch'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card, CardContent } from '@/components/ui/card'
+import { GlowingEffect } from '@/components/ui/glowing-effect'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import * as cheerio from 'cheerio'
+import TurndownService from 'turndown'
+import { invoke } from '@tauri-apps/api/core'
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { HoverMeButton } from '@/components/eldoraui/hoverMe'
+import { load } from '@tauri-apps/plugin-store'
+import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
+import uuid from 'react-native-uuid'
+import {
+  Calculator, Calendar, CreditCard, Settings, Smile, User,
+} from "lucide-react"
+import {
+  Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
+  CommandSeparator, CommandShortcut,
+} from "@/components/ui/command"
+
+const links = [
+  {
+    title: 'All',
+    icon: (
+      <IconHome className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+
+  {
+    title: 'Products',
+    icon: (
+      <IconTerminal2 className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+  {
+    title: 'Components',
+    icon: (
+      <IconNewSection className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+  {
+    title: 'Aceternity UI',
+    icon: (
+      <img
+        src='https://assets.aceternity.com/logo-dark.png'
+        width={20}
+        height={20}
+        alt='Aceternity Logo'
+      />
+    ),
+    href: '#'
+  },
+  {
+    title: 'Changelog',
+    icon: (
+      <IconExchange className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+
+  {
+    title: 'Twitter',
+    icon: (
+      <IconBrandX className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  },
+  {
+    title: 'GitHub',
+    icon: (
+      <IconBrandGithub className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    href: '#'
+  }
+]
+
+export default function Searchbox({ bookmarks, isSearchBoxOpen, setIsSearchBoxOpen }) {
+  const [inputValue, setInputValue] = useState('');
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isIndexed, setIsIndexed] = useState(false);
+
+  // Create and configure MiniSearch instance
+  const miniSearch = useMemo(() => {
+    const ms = new MiniSearch({
+      fields: ['title', 'description'],
+      storeFields: ['title', 'collection', 'id'], // Include id for better key handling
+      searchOptions: {
+        prefix: false,
+        boost: { title: 2 }, // Boost title matches
+      }
+    });
+    return ms;
+  }, []);
+
+  // Index bookmarks when they change
+  useEffect(() => {
+    const indexBookmarks = () => {
+      try {
+        if (bookmarks.length > 0) {
+          setIsLoading(true);
+
+          // Clear existing index
+          miniSearch.removeAll();
+
+          // Add documents with proper ID handling
+          const documentsToIndex = bookmarks.map((bookmark, index) => ({
+            id: bookmark.id || index, // Ensure each document has an ID
+            ...bookmark
+          }));
+
+          miniSearch.addAll(documentsToIndex);
+          setIsIndexed(true);
+
+          console.log(`Indexed ${documentsToIndex.length} bookmarks`);
+        }
+      } catch (error) {
+        console.error('Error indexing bookmarks:', error);
+        setIsIndexed(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    indexBookmarks();
+  }, [bookmarks, miniSearch]);
+
+  // Debounced search function
+  const performSearch = useCallback(
+    (query) => {
+      if (!isIndexed || query.trim() === '') {
+        setResults([]);
+        return;
+      }
+
+      try {
+        const searchResults = miniSearch.search(query, {
+          limit: 10,
+          // You can add more search options here
+        });
+
+        setResults(searchResults);
+        console.log(`Found ${searchResults.length} results for "${query}"`);
+      } catch (error) {
+        console.error('Search error:', error);
+        setResults([]);
+      }
+    },
+    [miniSearch, isIndexed]
+  );
+
+  // Handle input changes with debouncing
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      performSearch(inputValue);
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [inputValue, performSearch]);
+
+  const handleItemSelect = (item) => {
+    console.log('Selected item:', item);
+    // Add your selection logic here
+  };
+
+
+  return (
+    <Dialog open={isSearchBoxOpen} onOpenChange={() => setIsSearchBoxOpen(false)} className='flex flex-col gap-3'>
+      <DialogTitle />
+      <DialogDescription />
+      <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] h-[full] min-h-[48vh] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1'>
+        <Card className='relative h-full rounded-[var(--radius-inner)] p-0 md:p-0'>
+          <GlowingEffect
+            blur={0}
+            borderWidth={3}
+            spread={80}
+            glow
+            disabled={false}
+            proximity={64}
+            inactiveZone={0.01}
+          />
+          <CardContent className='grid p-0 md:grid-cols-1'>
+            <form className='p-6 md:p-8' onSubmit={() => { }}>
+              <div className='flex flex-col gap-6'>
+                <div className='flex flex-col items-center text-center'>
+                  <h1 className='text-2xl font-bold'>Search</h1>
+                </div>
+                <div className='grid gap-3'>
+                  <Command className="rounded-lg border-none shadow-none md:min-w-[450px] max-h-[30vh]" shouldFilter={false}>
+                    <CommandInput
+                      placeholder="Start typing ..."
+                      value={inputValue}
+                      onValueChange={setInputValue}
+                    />
+                    <CommandList>
+                      {/* Remove CommandEmpty temporarily */}
+
+                      {/* Always render the group, conditionally render content */}
+                      {results.length !== 0 && <CommandGroup heading="Search Results">
+                        {results.length === 0 && inputValue.trim() !== '' ? (
+                          <div className="p-2 text-sm text-muted-foreground">
+                            No results found for "{inputValue}"
+                          </div>
+                        ) : (
+                          results.map((result, index) => {
+                            const matchingLink = links.find(l =>
+                              l.title?.toLowerCase() === result.collection?.toLowerCase()
+                            );
+
+                            return (
+                              <CommandItem key={result.id || `result-${index}`}>
+                                {matchingLink?.icon}
+                                <span>{result.title}</span>
+                              </CommandItem>
+                            );
+                          })
+                        )}
+                      </CommandGroup>}
+
+                      {inputValue.trim() === '' && (
+                        <CommandGroup heading="Search Results will be displayed here">
+                        </CommandGroup>
+                      )}
+                    </CommandList>
+                  </Command>
+                </div>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </DialogContent >
+    </Dialog >
+  )
+}

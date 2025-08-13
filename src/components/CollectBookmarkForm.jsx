@@ -11,7 +11,6 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { HoverMeButton } from '@/components/eldoraui/hoverMe'
 import { load } from '@tauri-apps/plugin-store'
 import uuid from 'react-native-uuid'
-
 import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2 } from '@tabler/icons-react'
 
 // Convert HTML to Markdown
@@ -52,6 +51,7 @@ const parseImages = (url) => {
   formattedImageUrl = formattedImageUrl.replaceAll(/\/format:[^/]+\//g, '/')
   return formattedImageUrl
 }
+
 const collections = [
   {
     title: 'Home',

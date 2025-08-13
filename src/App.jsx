@@ -6,6 +6,7 @@ import { Search, Plus, Menu, PackageOpen } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
+import Searchbox from '@/components/Searchbox'
 import BearEditor from '@/components/MarkdownEditor'
 import AccountMenu from '@/components/AccountMenu'
 import { FloatingDock } from '@/components/ui/floating-dock'
@@ -82,10 +83,12 @@ function App () {
   const [collection, setCollection] = useState('home')
   const [activeTab, setActiveTab] = useState('home')
   const [addBookmark, setAddBookmark] = useState(false)
+  const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false)
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false)
   const [markdownContent, setMarkdownContent] = useState('')
   const [bookmarkId, setBookmarkId] = useState('')
   const [bookmarkList, setBookmarkList] = useState([])
+  const [bookmarksComplete, setBookmarksComplete] = useState([])
   const [isEditing, setIsEditing] = useState(false)
 
   const editButton = {
@@ -116,6 +119,7 @@ function App () {
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
+      setBookmarksComplete(listFromStore)
       listFromStore = collection?.toLowerCase() !== 'all' ? listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase()) : listFromStore
       setBookmarkList(listFromStore)
       markdownContent ? setActiveTab('editor') : setActiveTab('home')
@@ -140,6 +144,7 @@ function App () {
                 className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 w-30  font-extralight'
                 onClick={(e) => {
                   e.stopPropagation()
+                  setIsSearchBoxOpen(true)
                 }}
               >
                 <Search strokeWidth={1} /> Search
@@ -172,6 +177,11 @@ function App () {
             setAddBookmark={setAddBookmark}
             setMarkdownContent={setMarkdownContent}
             setBookmarkId={setBookmarkId}
+          />
+          <Searchbox
+            bookmarks={bookmarksComplete}
+            isSearchBoxOpen={isSearchBoxOpen}
+            setIsSearchBoxOpen={setIsSearchBoxOpen}
           />
           <TabsContent value='home'>
             {
