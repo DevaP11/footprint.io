@@ -24,6 +24,7 @@ export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen }
         <DropdownMenuLabel className='flex justify-end'>Hi Deva !</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Preferences</DropdownMenuItem>
+        <DropdownMenuItem className={hoverStyleForDropdownItem}>Collections</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Import</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Backup</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>
