@@ -13,7 +13,7 @@ import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, Ic
 
 const links = [
   {
-    title: 'Home',
+    title: 'All',
     icon: (
       <IconHome className='h-full w-full text-neutral-500 dark:text-neutral-300' />
     ),
@@ -113,17 +113,16 @@ function App () {
   const markdownMenu = isEditing ? [previewButton] : [editButton]
 
   useEffect(() => {
-    console.log('rerendering....')
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
-      listFromStore = listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase())
+      listFromStore = collection?.toLowerCase() !== 'all' ? listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase()) : listFromStore
       setBookmarkList(listFromStore)
       markdownContent ? setActiveTab('editor') : setActiveTab('home')
     }
 
     loadList()
-  }, [markdownContent, collection]) /** Change every time a markdown content is set */
+  }, [markdownContent, collection]) /** Change every time a markdown content  is set or a collection is selected */
 
   // const isOverflowHidden = activeTab === 'editor' ? 'overflow-hidden' : 'overflow-fixed'
   return (
