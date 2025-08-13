@@ -167,8 +167,8 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
             <form className='p-6 md:p-8' onSubmit={() => { }}>
               <div className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center text-center'>
-                  <h1 className='text-2xl font-bold'>Search</h1>
-                  <p className='text-muted-foreground text-balance'>
+                  <h1 className='text-2xl font-bold mb-0'>Search</h1>
+                  <p className='text-muted-foreground text-balance md:hidden'>
                     Search Bookmarks !
                   </p>
                 </div>
