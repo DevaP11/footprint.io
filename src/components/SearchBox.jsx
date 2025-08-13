@@ -1,25 +1,11 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import MiniSearch from 'minisearch'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent } from '@/components/ui/card'
 import { GlowingEffect } from '@/components/ui/glowing-effect'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import * as cheerio from 'cheerio'
-import TurndownService from 'turndown'
-import { invoke } from '@tauri-apps/api/core'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { HoverMeButton } from '@/components/eldoraui/hoverMe'
-import { load } from '@tauri-apps/plugin-store'
-import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
-import uuid from 'react-native-uuid'
-import {
-  Calculator, Calendar, CreditCard, Settings, Smile, User,
-} from "lucide-react"
-import {
-  Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
-  CommandSeparator, CommandShortcut,
-} from "@/components/ui/command"
+import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2 } from '@tabler/icons-react'
+import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { CommandSeparator } from 'cmdk'
 
 const links = [
   {
@@ -80,94 +66,87 @@ const links = [
   }
 ]
 
-export default function Searchbox({ bookmarks, isSearchBoxOpen, setIsSearchBoxOpen }) {
-  const [inputValue, setInputValue] = useState('');
-  const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isIndexed, setIsIndexed] = useState(false);
+export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxOpen, setMarkdownContent, setBookmarkId }) {
+  const [inputValue, setInputValue] = useState('')
+  const [results, setResults] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [isIndexed, setIsIndexed] = useState(false)
 
   // Create and configure MiniSearch instance
   const miniSearch = useMemo(() => {
     const ms = new MiniSearch({
-      fields: ['title', 'description'],
-      storeFields: ['title', 'collection', 'id'], // Include id for better key handling
+      fields: ['title', 'collection', 'id', 'description'],
+      storeFields: ['title', 'collection', 'id', 'description'], // Include id for better key handling
       searchOptions: {
         prefix: false,
-        boost: { title: 2 }, // Boost title matches
+        boost: { title: 2 } // Boost title matches
       }
-    });
-    return ms;
-  }, []);
+    })
+    return ms
+  }, [])
 
   // Index bookmarks when they change
   useEffect(() => {
     const indexBookmarks = () => {
       try {
         if (bookmarks.length > 0) {
-          setIsLoading(true);
+          setIsLoading(true)
 
           // Clear existing index
-          miniSearch.removeAll();
+          miniSearch.removeAll()
 
           // Add documents with proper ID handling
           const documentsToIndex = bookmarks.map((bookmark, index) => ({
             id: bookmark.id || index, // Ensure each document has an ID
             ...bookmark
-          }));
+          }))
 
-          miniSearch.addAll(documentsToIndex);
-          setIsIndexed(true);
+          miniSearch.addAll(documentsToIndex)
+          setIsIndexed(true)
 
-          console.log(`Indexed ${documentsToIndex.length} bookmarks`);
+          console.log(`Indexed ${documentsToIndex.length} bookmarks`)
         }
       } catch (error) {
-        console.error('Error indexing bookmarks:', error);
-        setIsIndexed(false);
+        console.error('Error indexing bookmarks:', error)
+        setIsIndexed(false)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
-    indexBookmarks();
-  }, [bookmarks, miniSearch]);
+    }
+    indexBookmarks()
+  }, [bookmarks, miniSearch])
 
   // Debounced search function
   const performSearch = useCallback(
     (query) => {
       if (!isIndexed || query.trim() === '') {
-        setResults([]);
-        return;
+        setResults([])
+        return
       }
 
       try {
         const searchResults = miniSearch.search(query, {
-          limit: 10,
+          limit: 10
           // You can add more search options here
-        });
+        })
 
-        setResults(searchResults);
-        console.log(`Found ${searchResults.length} results for "${query}"`);
+        setResults(searchResults)
       } catch (error) {
-        console.error('Search error:', error);
-        setResults([]);
+        console.error('Search error:', error)
+        setResults([])
       }
     },
     [miniSearch, isIndexed]
-  );
+  )
 
   // Handle input changes with debouncing
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      performSearch(inputValue);
-    }, 300); // 300ms debounce
+      performSearch(inputValue)
+    }, 300) // 300ms debounce
 
-    return () => clearTimeout(timeoutId);
-  }, [inputValue, performSearch]);
-
-  const handleItemSelect = (item) => {
-    console.log('Selected item:', item);
-    // Add your selection logic here
-  };
-
+    return () => clearTimeout(timeoutId)
+  }, [inputValue, performSearch])
 
   return (
     <Dialog open={isSearchBoxOpen} onOpenChange={() => setIsSearchBoxOpen(false)} className='flex flex-col gap-3'>
@@ -191,9 +170,9 @@ export default function Searchbox({ bookmarks, isSearchBoxOpen, setIsSearchBoxOp
                   <h1 className='text-2xl font-bold'>Search</h1>
                 </div>
                 <div className='grid gap-3'>
-                  <Command className="rounded-lg border-none shadow-none md:min-w-[450px] max-h-[30vh]" shouldFilter={false}>
+                  <Command className='rounded-lg border-none shadow-none md:min-w-[450px] max-h-[30vh]' shouldFilter={false}>
                     <CommandInput
-                      placeholder="Start typing ..."
+                      placeholder='Start typing ...'
                       value={inputValue}
                       onValueChange={setInputValue}
                     />
@@ -201,31 +180,47 @@ export default function Searchbox({ bookmarks, isSearchBoxOpen, setIsSearchBoxOp
                       {/* Remove CommandEmpty temporarily */}
 
                       {/* Always render the group, conditionally render content */}
-                      {results.length !== 0 && <CommandGroup heading="Search Results">
-                        {results.length === 0 && inputValue.trim() !== '' ? (
-                          <div className="p-2 text-sm text-muted-foreground">
-                            No results found for "{inputValue}"
-                          </div>
-                        ) : (
-                          results.map((result, index) => {
-                            const matchingLink = links.find(l =>
-                              l.title?.toLowerCase() === result.collection?.toLowerCase()
-                            );
+                      {inputValue &&
+                        <CommandGroup heading='Search Results'>
+                          {results.length === 0 && inputValue.trim() !== ''
+                            ? (
+                              <div className='p-2 text-sm text-muted-foreground'>
+                                No results found for "{inputValue}"
+                              </div>
+                              )
+                            : (
+                                results.map((result, index) => {
+                                  const matchingLink = links.find(l =>
+                                    l.title?.toLowerCase() === result.collection?.toLowerCase()
+                                  )
 
-                            return (
-                              <CommandItem key={result.id || `result-${index}`}>
-                                {matchingLink?.icon}
-                                <span>{result.title}</span>
-                              </CommandItem>
-                            );
-                          })
-                        )}
-                      </CommandGroup>}
+                                  return (
+                                    <CommandItem
+                                      key={`result-${result?.id}`}
+                                      onSelect={() => {
+                                        setMarkdownContent(result?.description)
+                                        setBookmarkId(result?.id)
+                                        setIsSearchBoxOpen(false)
+                                      }}
+                                    >
+                                      {matchingLink?.icon}
+                                      <span>{result.title}</span>
+                                    </CommandItem>
+                                  )
+                                })
+                              )}
+                        </CommandGroup>}
 
-                      {inputValue.trim() === '' && (
-                        <CommandGroup heading="Search Results will be displayed here">
-                        </CommandGroup>
+                      <CommandSeparator />
+
+                      {isLoading && (
+                        <CommandGroup heading='Loading...' />
                       )}
+
+                      {!isLoading && inputValue.trim() === '' && (
+                        <CommandGroup heading='Search Results will be displayed here' />
+                      )}
+
                     </CommandList>
                   </Command>
                 </div>
@@ -233,7 +228,7 @@ export default function Searchbox({ bookmarks, isSearchBoxOpen, setIsSearchBoxOp
             </form>
           </CardContent>
         </Card>
-      </DialogContent >
-    </Dialog >
+      </DialogContent>
+    </Dialog>
   )
 }

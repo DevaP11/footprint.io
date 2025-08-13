@@ -182,6 +182,8 @@ function App () {
             bookmarks={bookmarksComplete}
             isSearchBoxOpen={isSearchBoxOpen}
             setIsSearchBoxOpen={setIsSearchBoxOpen}
+            setMarkdownContent={setMarkdownContent}
+            setBookmarkId={setBookmarkId}
           />
           <TabsContent value='home'>
             {
