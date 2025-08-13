@@ -152,7 +152,7 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
     <Dialog open={isSearchBoxOpen} onOpenChange={() => setIsSearchBoxOpen(false)} className='flex flex-col gap-3'>
       <DialogTitle />
       <DialogDescription />
-      <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] h-[full] min-h-[48vh] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1'>
+      <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] h-[full] min-h-[36vh] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1'>
         <Card className='relative h-full rounded-[var(--radius-inner)] p-0 md:p-0'>
           <GlowingEffect
             blur={0}
@@ -168,9 +168,12 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
               <div className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center text-center'>
                   <h1 className='text-2xl font-bold'>Search</h1>
+                  <p className='text-muted-foreground text-balance'>
+                    Search Bookmarks !
+                  </p>
                 </div>
                 <div className='grid gap-3'>
-                  <Command className='rounded-lg border-none shadow-none md:min-w-[450px] max-h-[30vh]' shouldFilter={false}>
+                  <Command className='rounded-lg border-none shadow-none md:min-w-[450px] max-h-[18vh]' shouldFilter={false}>
                     <CommandInput
                       placeholder='Start typing ...'
                       value={inputValue}
