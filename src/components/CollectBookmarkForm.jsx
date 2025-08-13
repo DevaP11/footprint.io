@@ -375,7 +375,10 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
                       {
                         collections.map((c, index) => {
                           return (
-                            <SelectItem value={c.title} key={`collection-${index}`}> {c.title}</SelectItem>
+                            <SelectItem value={c.title} key={`collection-${index}`}>
+                              {c?.icon}
+                              <span>{c.title}</span>
+                            </SelectItem>
                           )
                         })
                       }
