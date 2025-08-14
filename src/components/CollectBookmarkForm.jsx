@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Particles } from '@/components/magicui/particles'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent } from '@/components/ui/card'
 import { GlowingEffect } from '@/components/ui/glowing-effect'
@@ -340,6 +341,13 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
             disabled={false}
             proximity={64}
             inactiveZone={0.01}
+          />
+          <Particles
+            className='absolute inset-0 z-0'
+            quantity={60}
+            ease={80}
+            color='green'
+            refresh
           />
           <CardContent className='grid p-0 md:grid-cols-1'>
             <form className='p-6 md:p-8' onSubmit={scrapeWrapper}>
