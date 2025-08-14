@@ -18,6 +18,15 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
 
   const colorScheme = 'light'
 
+  // Consistent styling variables
+  const containerStyles = 'max-w-4xl mx-auto px-16 py-12'
+  const contentStyles = {
+    fontSize: '16px',
+    lineHeight: '1.7',
+    fontFamily: 'Satoshi, sans-serif',
+    color: '#374151'
+  }
+
   const handlePreviewClick = () => {
     setIsEditing(true)
   }
@@ -47,12 +56,11 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
 
   return (
     <div className='h-[75vh] overflow-hidden'>
-
       {/* Editor/Preview Area */}
       <div className='h-full'>
         {isEditing
           ? (
-            <div className='h-full overflow-auto max-w-4xl mx-auto px-16 py-12' data-color-mode={colorScheme}>
+            <div className={`h-full overflow-auto ${containerStyles}`} data-color-mode={colorScheme}>
               <MDEditor
                 value={markdownContent}
                 onChange={(val) => {
@@ -65,20 +73,21 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
                 data-color-mode={colorScheme}
                 onBlur={handleEditorBlur}
                 style={{
-                  backgroundColor: 'white'
+                  backgroundColor: 'transparent',
+                  border: 'none'
                 }}
                 textareaProps={{
                   placeholder: 'Start writing...',
                   style: {
-                    fontSize: '16px',
-                    lineHeight: '1.7',
-                    fontFamily: 'Satoshi, sans-serif',
-                    padding: '48px 64px',
+                    ...contentStyles,
+                    padding: '0',
+                    margin: '0',
                     border: 'none',
                     outline: 'none',
                     resize: 'none',
-                    backgroundColor: 'white',
-                    color: '#374151'
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                    minHeight: '100%'
                   },
                   autoFocus: true
                 }}
@@ -90,7 +99,7 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
               className='h-full overflow-auto cursor-text'
               onClick={handlePreviewClick}
             >
-              <div className='max-w-4xl mx-auto px-16 py-12'>
+              <div className={containerStyles}>
                 <div
                   className='prose prose-lg prose-gray max-w-none hover:bg-stone-50/30 transition-colors duration-200 rounded-lg p-8 -m-8'
                   data-color-mode={colorScheme}
@@ -99,10 +108,7 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
                     source={markdownContent}
                     style={{
                       backgroundColor: 'transparent',
-                      color: '#374151',
-                      fontSize: '16px',
-                      lineHeight: '1.7',
-                      fontFamily: 'Satoshi, sans-serif'
+                      ...contentStyles
                     }}
                   />
                   {/* Image Preview Gallery */}
