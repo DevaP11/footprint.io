@@ -153,8 +153,8 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
     <Dialog open={isSearchBoxOpen} onOpenChange={() => setIsSearchBoxOpen(false)} className='flex flex-col gap-3'>
       <DialogTitle />
       <DialogDescription />
-      <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] h-[full] min-h-[36vh] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1'>
-        <Card className='relative overflow-hidden h-full rounded-[var(--radius-inner)] p-0 md:p-0'>
+      <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] h-[full] min-h-[36vh] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1 bg-[linear-gradient(135deg,#fdfcfb_60%,#e2d1c3_100%)]'>
+        <Card className='relative overflow-hidden h-full rounded-[var(--radius-inner)] p-0 md:p-0 bg-transparent'>
           <GlowingEffect
             blur={0}
             borderWidth={3}
@@ -181,7 +181,7 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
                   </p>
                 </div>
                 <div className='grid gap-3'>
-                  <Command className='rounded-lg border-none shadow-none md:min-w-[450px] max-h-[18vh]' shouldFilter={false}>
+                  <Command className='bg-transparent rounded-lg border-none shadow-none md:min-w-[450px] max-h-[18vh]' shouldFilter={false}>
                     <CommandInput
                       placeholder='Start typing ...'
                       value={inputValue}
