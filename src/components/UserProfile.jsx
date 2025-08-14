@@ -13,7 +13,7 @@ export default function UserProfile () {
         />
         <div className='absolute inset-0 flex items-center justify-end mr-12'>
           <div className='font-extralight text-lg sm:text-xl md:text-2xl lg:text-3xl text-stone-700 text-center px-4'>
-            footprint.io
+            Preferences
           </div>
         </div>
       </CardContent>

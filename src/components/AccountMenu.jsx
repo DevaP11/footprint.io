@@ -25,11 +25,10 @@ export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, 
             className={hoverStyleForDropdownItem}
             onClick={(e) => {
               e.stopPropagation()
-              setActiveTab('settings')
+              setActiveTab('preferences')
             }}
           >
-            {/** Add an Are You Sure ? dialog */}
-            <span className='font-extralight text-black-900'>Settings</span>
+            <span className='font-extralight text-black-900'>Preferences</span>
           </Button>
         </DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Import</DropdownMenuItem>

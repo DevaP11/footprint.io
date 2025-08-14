@@ -83,7 +83,7 @@ function chunkArray (arr, chunkSize) {
 
 function App () {
   const [collection, setCollection] = useState('home')
-  const [activeTab, setActiveTab] = useState('settings')
+  const [activeTab, setActiveTab] = useState('preferences')
   const [addBookmark, setAddBookmark] = useState(false)
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false)
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false)
@@ -246,7 +246,7 @@ function App () {
                 setIsEditing={setIsEditing}
               />
             </TabsContent>
-            <TabsContent key='settings' value='settings'>
+            <TabsContent key='preferences' value='preferences'>
               <UserProfile />
             </TabsContent>
           </div>
