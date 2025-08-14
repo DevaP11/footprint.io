@@ -1,15 +1,10 @@
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { load } from '@tauri-apps/plugin-store'
 
-export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen }) {
+export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, setActiveTab }) {
   const clearStore = async () => {
     const store = await load('store.json', { autoSave: false })
     await store.set('bookmarks', [])
@@ -23,8 +18,20 @@ export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen }
       <DropdownMenuContent className='w-42 mt-2 mr-2 p-2 font-extralight text-xs bg-stone-100' align='end'>
         <DropdownMenuLabel className='flex justify-end'>Hi Deva !</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className={hoverStyleForDropdownItem}>Preferences</DropdownMenuItem>
-        <DropdownMenuItem className={hoverStyleForDropdownItem}>Collections</DropdownMenuItem>
+        <DropdownMenuItem className={hoverStyleForDropdownItem}>
+          <Button
+            variant='ghost'
+            size='8'
+            className={hoverStyleForDropdownItem}
+            onClick={(e) => {
+              e.stopPropagation()
+              setActiveTab('settings')
+            }}
+          >
+            {/** Add an Are You Sure ? dialog */}
+            <span className='font-extralight text-black-900'>Settings</span>
+          </Button>
+        </DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Import</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>Backup</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>

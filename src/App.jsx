@@ -11,6 +11,7 @@ import BearEditor from '@/components/MarkdownEditor'
 import AccountMenu from '@/components/AccountMenu'
 import { FloatingDock } from '@/components/ui/floating-dock'
 import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
+import UserProfile from '@/components/UserProfile'
 
 const links = [
   {
@@ -81,7 +82,7 @@ function chunkArray (arr, chunkSize) {
 
 function App () {
   const [collection, setCollection] = useState('home')
-  const [activeTab, setActiveTab] = useState('home')
+  const [activeTab, setActiveTab] = useState('settings')
   const [addBookmark, setAddBookmark] = useState(false)
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false)
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false)
@@ -161,7 +162,7 @@ function App () {
               </Button>
               <Button
                 type='icon'
-                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
+                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 font-extralight'
                 onClick={(e) => {
                   e.stopPropagation()
                   setIsAccountMenuOpen(!isAccountMenuOpen)
@@ -169,7 +170,11 @@ function App () {
               >
                 <Menu strokeWidth={1} />
               </Button>
-              <AccountMenu isAccountMenuOpen={isAccountMenuOpen} setIsAccountMenuOpen={setIsAccountMenuOpen} />
+              <AccountMenu
+                isAccountMenuOpen={isAccountMenuOpen}
+                setIsAccountMenuOpen={setIsAccountMenuOpen}
+                setActiveTab={setActiveTab}
+              />
             </div>
           </div>
           <CollectBookmarkForm
@@ -239,6 +244,9 @@ function App () {
               isEditing={isEditing}
               setIsEditing={setIsEditing}
             />
+          </TabsContent>
+          <TabsContent key='settings' value='settings'>
+            <UserProfile />
           </TabsContent>
         </div>
       </Tabs>
