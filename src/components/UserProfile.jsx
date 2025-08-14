@@ -11,7 +11,11 @@ export default function UserProfile () {
           alt='Cover Image'
           draggable={false}
         />
-        <div className='absolute right-12 top-24 font-extralight text-xl text-stone-700'>Welcome Deva !</div>
+        <div className='absolute inset-0 flex items-center justify-end mr-12'>
+          <div className='font-extralight text-lg sm:text-xl md:text-2xl lg:text-3xl text-stone-700 text-center px-4'>
+            Welcome Deva !
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

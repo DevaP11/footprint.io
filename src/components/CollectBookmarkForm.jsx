@@ -332,7 +332,7 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       <DialogTitle />
       <DialogDescription />
       <DialogContent className='sm:max-w-[56vw] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1 bg-[linear-gradient(155deg,#fdfcfb_40%,#e2d1c3_100%)]'>
-        <Card className='relative h-full rounded-[var(--radius-inner)] p-0 md:p-0  bg-transparent'>
+        <Card className='relative h-full rounded-[var(--radius-inner)] p-0 md:p-0 bg-transparent'>
           <GlowingEffect
             blur={0}
             borderWidth={3}
