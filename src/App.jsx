@@ -202,7 +202,7 @@ function App () {
                     chunkArray(bookmarkList, 6)
                       ?.map((bookmarkArray, index) => {
                         return (
-                          <div className='grid grid-cols-4 auto-rows-fr h-[75vh] gap-4 z-0 mt-0' key={`bookmark-${index}`}>
+                          <div className='grid grid-cols-4 auto-rows-fr h-[75vh] gap-4 z-0 mt-4' key={`bookmark-${index}`}>
                             {
                               bookmarkArray?.map((bookmarkItem, index) => {
                                 const indexToCalculate = index <= 5 ? index : index % 5
