@@ -54,7 +54,7 @@ body,
     margin: 0;
     padding: 0;
     height: 100%;
-    background: linear-gradient(to right top, #eaeaea, #c1c9d0, #92abae, #708d80, #626c4e);
+    background: linear-gradient(to left bottom, #eaeaea, #e2dee0, #ddd2d1, #d2c8bf, #bec0b1);
     background-attachment: fixed;
     /* keeps gradient from moving with scroll */
     background-repeat: no-repeat;
