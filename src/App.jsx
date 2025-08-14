@@ -1,4 +1,5 @@
 import './App.css'
+import { ProgressiveBlur } from '@/components/magicui/progressive-blur'
 import { load } from '@tauri-apps/plugin-store'
 import { useEffect, useState } from 'react'
 import Bookmark from '@/components/Bookmark'
@@ -251,8 +252,9 @@ function App () {
         </div>
       </Tabs>
       <div className='flex flex-row justify-center'>
+        <ProgressiveBlur position='bottom' height='20%' className='fixed bottom-20 z-1' />
         <FloatingDock
-          desktopClassName='fixed bottom-6'
+          desktopClassName='fixed bottom-6 z-2'
           mobileClassName='fixed bottom-6'
           items={activeTab === 'editor' ? markdownMenu : links}
           setCollection={setCollection}

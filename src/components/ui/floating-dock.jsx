@@ -65,7 +65,7 @@ const FloatingDockMobile = ({
                       setCollection(item.title?.toLowerCase())
                     }
                   }}
-                  className='flex h-10 w-10 items-center justify-center rounded-full bg-stone-500dark:bg-stone-900'
+                  className='flex h-10 w-10 items-center justify-center rounded-full bg-stone-500 dark:bg-stone-900'
                 >
                   <div className='h-4 w-4'>{item.icon}</div>
                 </button>
