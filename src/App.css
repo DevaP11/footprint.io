@@ -45,6 +45,24 @@ body {
     --radius-xl: calc(var(--radius) + 4px);
     --radius-inner: 36px;
     --padding-value: 12px;
+    --my-gradient: linear-gradient(to right top, #eaeaea, #c1c9d0, #92abae, #708d80, #626c4e);
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(to right top, #eaeaea, #c1c9d0, #92abae, #708d80, #626c4e);
+    background-attachment: fixed;
+    /* keeps gradient from moving with scroll */
+    background-repeat: no-repeat;
+    background-size: cover;
+    overscroll-behavior: none;
+    /* prevents rubber band white edges on Windows/Linux */
+    -webkit-overflow-scrolling: touch;
+    /* smoother scroll on macOS */
 }
 
 :root {

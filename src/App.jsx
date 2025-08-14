@@ -129,137 +129,138 @@ function App () {
 
     loadList()
   }, [markdownContent, collection]) /** Change every time a markdown content  is set or a collection is selected */
-
   return (
-    <main className='ml-[8vw] mr-[8vw] mt-8 overflow-hidden w-[84vw]'>
-      <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
-        <div className='flex flex-col'>
-          <div className='flex flex-row mb-0 w-full justify-between mb-2'>
-            <TabsList className='bg-stone-200'>
-              <TabsTrigger value='home' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
-                footprint.io
-              </TabsTrigger>
-            </TabsList>
-            <div className='align-middle'>
-              <Button
-                type='icon'
-                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 w-30  font-extralight'
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setIsSearchBoxOpen(true)
-                }}
-              >
-                <Search strokeWidth={1} /> Search
-              </Button>
-              <Button
-                type='icon'
-                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setAddBookmark(true)
-                }}
-              >
-                <Plus strokeWidth={1} /> Add
-              </Button>
-              <Button
-                type='icon'
-                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 font-extralight'
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setIsAccountMenuOpen(!isAccountMenuOpen)
-                }}
-              >
-                <Menu strokeWidth={1} />
-              </Button>
-              <AccountMenu
-                isAccountMenuOpen={isAccountMenuOpen}
-                setIsAccountMenuOpen={setIsAccountMenuOpen}
-                setActiveTab={setActiveTab}
-              />
+    <main id='root'>
+      <div className='ml-[8vw] mr-[8vw] mt-8 overflow-hidden w-[84vw]'>
+        <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
+          <div className='flex flex-col'>
+            <div className='flex flex-row mb-0 w-full justify-between mb-2'>
+              <TabsList className='bg-stone-200'>
+                <TabsTrigger value='home' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
+                  footprint.io
+                </TabsTrigger>
+              </TabsList>
+              <div className='align-middle'>
+                <Button
+                  type='icon'
+                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 w-30  font-extralight'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsSearchBoxOpen(true)
+                  }}
+                >
+                  <Search strokeWidth={1} /> Search
+                </Button>
+                <Button
+                  type='icon'
+                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setAddBookmark(true)
+                  }}
+                >
+                  <Plus strokeWidth={1} /> Add
+                </Button>
+                <Button
+                  type='icon'
+                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 font-extralight'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsAccountMenuOpen(!isAccountMenuOpen)
+                  }}
+                >
+                  <Menu strokeWidth={1} />
+                </Button>
+                <AccountMenu
+                  isAccountMenuOpen={isAccountMenuOpen}
+                  setIsAccountMenuOpen={setIsAccountMenuOpen}
+                  setActiveTab={setActiveTab}
+                />
+              </div>
             </div>
-          </div>
-          <CollectBookmarkForm
-            addBookmark={addBookmark}
-            setAddBookmark={setAddBookmark}
-            setMarkdownContent={setMarkdownContent}
-            setBookmarkId={setBookmarkId}
-          />
-          <Searchbox
-            bookmarks={bookmarksComplete}
-            isSearchBoxOpen={isSearchBoxOpen}
-            setIsSearchBoxOpen={setIsSearchBoxOpen}
-            setMarkdownContent={setMarkdownContent}
-            setBookmarkId={setBookmarkId}
-          />
-          <TabsContent value='home'>
-            {
-              bookmarkList?.length === 0 && (
-                <div className='grid grid-cols-1 grid-rows-1 h-[75vh]'>
-                  <span className='place-self-center text-stone-600'>
-                    <PackageOpen size={48} strokeWidth={0.5} />
-                  </span>
-                </div>
-              )
-            }
-            {
-              bookmarkList?.length !== 0 && (
-                <div className='flex flex-col'>
-                  {
-                    chunkArray(bookmarkList, 6)
-                      ?.map((bookmarkArray, index) => {
-                        return (
-                          <div className='grid grid-cols-4 auto-rows-fr h-[75vh] gap-4 z-0 mt-4' key={`bookmark-${index}`}>
-                            {
-                              bookmarkArray?.map((bookmarkItem, index) => {
-                                const indexToCalculate = index <= 5 ? index : index % 5
-                                const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
-                                const size = template[indexToCalculate]
-                                return (
-                                  <Bookmark
-                                    setMarkdownContent={setMarkdownContent}
-                                    key={index}
-                                    id={index}
-                                    title={bookmarkItem?.title}
-                                    description={bookmarkItem?.description}
-                                    image={bookmarkItem?.image}
-                                    size={size}
-                                    bookmarkId={bookmarkItem?.id}
-                                    setBookmarkId={setBookmarkId}
-                                  />
-                                )
-                              })
-                            }
-                          </div>
-                        )
-                      })
-                  }
-                </div>
-              )
-            }
-          </TabsContent>
-          <TabsContent key='editor' value='editor'>
-            <BearEditor
-              markdownContent={markdownContent}
+            <CollectBookmarkForm
+              addBookmark={addBookmark}
+              setAddBookmark={setAddBookmark}
               setMarkdownContent={setMarkdownContent}
-              bookmarkId={bookmarkId}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
+              setBookmarkId={setBookmarkId}
             />
-          </TabsContent>
-          <TabsContent key='settings' value='settings'>
-            <UserProfile />
-          </TabsContent>
+            <Searchbox
+              bookmarks={bookmarksComplete}
+              isSearchBoxOpen={isSearchBoxOpen}
+              setIsSearchBoxOpen={setIsSearchBoxOpen}
+              setMarkdownContent={setMarkdownContent}
+              setBookmarkId={setBookmarkId}
+            />
+            <TabsContent value='home'>
+              {
+                bookmarkList?.length === 0 && (
+                  <div className='grid grid-cols-1 grid-rows-1 h-[75vh]'>
+                    <span className='place-self-center text-stone-600'>
+                      <PackageOpen size={48} strokeWidth={0.5} />
+                    </span>
+                  </div>
+                )
+              }
+              {
+                bookmarkList?.length !== 0 && (
+                  <div className='flex flex-col'>
+                    {
+                      chunkArray(bookmarkList, 6)
+                        ?.map((bookmarkArray, index) => {
+                          return (
+                            <div className='grid grid-cols-4 auto-rows-fr h-[75vh] gap-4 z-0 mt-4' key={`bookmark-${index}`}>
+                              {
+                                bookmarkArray?.map((bookmarkItem, index) => {
+                                  const indexToCalculate = index <= 5 ? index : index % 5
+                                  const template = ['large', 'wide', 'default', 'tall', 'wide', 'default']
+                                  const size = template[indexToCalculate]
+                                  return (
+                                    <Bookmark
+                                      setMarkdownContent={setMarkdownContent}
+                                      key={index}
+                                      id={index}
+                                      title={bookmarkItem?.title}
+                                      description={bookmarkItem?.description}
+                                      image={bookmarkItem?.image}
+                                      size={size}
+                                      bookmarkId={bookmarkItem?.id}
+                                      setBookmarkId={setBookmarkId}
+                                    />
+                                  )
+                                })
+                              }
+                            </div>
+                          )
+                        })
+                    }
+                  </div>
+                )
+              }
+            </TabsContent>
+            <TabsContent key='editor' value='editor'>
+              <BearEditor
+                markdownContent={markdownContent}
+                setMarkdownContent={setMarkdownContent}
+                bookmarkId={bookmarkId}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+              />
+            </TabsContent>
+            <TabsContent key='settings' value='settings'>
+              <UserProfile />
+            </TabsContent>
+          </div>
+        </Tabs>
+        <div className='flex flex-row justify-center'>
+          <ProgressiveBlur position='bottom' height='20%' className='fixed bottom-20 z-1' />
+          <FloatingDock
+            desktopClassName='fixed bottom-6 z-2'
+            mobileClassName='fixed bottom-6'
+            items={activeTab === 'editor' ? markdownMenu : links}
+            setCollection={setCollection}
+            setActiveTab={setActiveTab}
+          />
         </div>
-      </Tabs>
-      <div className='flex flex-row justify-center'>
-        <ProgressiveBlur position='bottom' height='20%' className='fixed bottom-20 z-1' />
-        <FloatingDock
-          desktopClassName='fixed bottom-6 z-2'
-          mobileClassName='fixed bottom-6'
-          items={activeTab === 'editor' ? markdownMenu : links}
-          setCollection={setCollection}
-          setActiveTab={setActiveTab}
-        />
       </div>
     </main>
   )

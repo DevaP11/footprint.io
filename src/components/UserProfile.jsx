@@ -3,7 +3,7 @@ import bookmarkLeaf from '@/assets/bookmarks-leaf.png'
 
 export default function UserProfile () {
   return (
-    <Card className='relative h-full p-0 md:p-0'>
+    <Card className='relative h-full p-0 md:p-0 mt-4'>
       <CardContent className='p-0 w-full h-full overflow-hidden rounded-lg relative'>
         <img
           src={bookmarkLeaf}
