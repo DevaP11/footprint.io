@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2 } from '@tabler/icons-react'
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { CommandSeparator } from 'cmdk'
+import { Particles } from '@/components/magicui/particles'
 
 const links = [
   {
@@ -153,7 +154,7 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
       <DialogTitle />
       <DialogDescription />
       <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] h-[full] min-h-[36vh] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1'>
-        <Card className='relative h-full rounded-[var(--radius-inner)] p-0 md:p-0'>
+        <Card className='relative overflow-hidden h-full rounded-[var(--radius-inner)] p-0 md:p-0'>
           <GlowingEffect
             blur={0}
             borderWidth={3}
@@ -162,6 +163,13 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
             disabled={false}
             proximity={64}
             inactiveZone={0.01}
+          />
+          <Particles
+            className='absolute inset-0 z-0'
+            quantity={60}
+            ease={80}
+            color='green'
+            refresh
           />
           <CardContent className='grid p-0 md:grid-cols-1'>
             <form className='p-6 md:p-8' onSubmit={() => { }}>
