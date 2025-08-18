@@ -3,7 +3,7 @@ import { ProgressiveBlur } from '@/components/magicui/progressive-blur'
 import { load } from '@tauri-apps/plugin-store'
 import { useEffect, useState } from 'react'
 import Bookmark from '@/components/Bookmark'
-import { Search, Plus, Menu, PackageOpen } from 'lucide-react'
+import { Search, Plus, Menu } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
@@ -13,6 +13,7 @@ import AccountMenu from '@/components/AccountMenu'
 import { FloatingDock } from '@/components/ui/floating-dock'
 import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
 import UserProfile from '@/components/UserProfile'
+import { NoDataSvg } from '@/assets/SvgList'
 
 const links = [
   {
@@ -196,7 +197,9 @@ function App () {
                 bookmarkList?.length === 0 && (
                   <div className='grid grid-cols-1 grid-rows-1 h-[75vh]'>
                     <span className='place-self-center text-stone-600'>
-                      <PackageOpen size={48} strokeWidth={0.5} />
+                      <NoDataSvg
+                        height={50}
+                      />
                     </span>
                   </div>
                 )
