@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import bookmarkLeaf from '@/assets/bookmarks-leaf.png'
 
-export default function UserProfile () {
+export default function PreferencesBanner() {
   return (
     <Card className='relative h-full p-0 md:p-0 mt-4'>
       <CardContent className='p-0 w-full h-full overflow-hidden rounded-lg relative'>

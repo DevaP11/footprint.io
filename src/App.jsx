@@ -12,7 +12,7 @@ import BearEditor from '@/components/MarkdownEditor'
 import AccountMenu from '@/components/AccountMenu'
 import { FloatingDock } from '@/components/ui/floating-dock'
 import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
-import UserProfile from '@/components/UserProfile'
+import PreferencesBanner from '@/components/PreferencesBanner'
 import { NoDataSvg } from '@/assets/SvgList'
 
 const links = [
@@ -250,7 +250,7 @@ function App () {
               />
             </TabsContent>
             <TabsContent key='preferences' value='preferences'>
-              <UserProfile />
+              <PreferencesBanner />
             </TabsContent>
           </div>
         </Tabs>
