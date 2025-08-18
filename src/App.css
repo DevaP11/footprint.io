@@ -64,6 +64,12 @@ body,
     /* smoother scroll on macOS */
 }
 
+/* Override all CommandItem selection background */
+[data-selected="true"] {
+    background-color: transparent !important;
+    color: black !important;
+}
+
 :root {
     --radius: 0.625rem;
     --background: oklch(1 0 0);
