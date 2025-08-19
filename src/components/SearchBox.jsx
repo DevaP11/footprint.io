@@ -153,8 +153,8 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
     <Dialog open={isSearchBoxOpen} onOpenChange={() => setIsSearchBoxOpen(false)} className='flex flex-col gap-3'>
       <DialogTitle />
       <DialogDescription />
-      <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] h-[full] min-h-[36vh] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1 bg-[linear-gradient(135deg,#fdfcfb_60%,#e2d1c3_100%)]'>
-        <Card className='relative overflow-hidden h-full rounded-[var(--radius-inner)] p-0 md:p-0 bg-transparent'>
+      <DialogContent className='sm:max-w-[56vw] md:min-w-[550px] place-self-center [&>button]:hidden rounded-[calc(var(--radius-inner)+var(--padding-value))] p-[var(--padding-value)] p-4 m-1 bg-[linear-gradient(155deg,#fdfcfb_40%,#e2d1c3_100%)]'>
+        <Card className='relative h-full rounded-[var(--radius-inner)] p-0 md:p-0 bg-transparent'>
           <GlowingEffect
             blur={0}
             borderWidth={3}
