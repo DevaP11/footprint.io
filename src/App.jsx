@@ -250,7 +250,7 @@ function App () {
               />
             </TabsContent>
             <TabsContent key='preferences' value='preferences'>
-              <PreferencesBanner />
+              <PreferencesBanner collections={links} />
             </TabsContent>
           </div>
         </Tabs>
