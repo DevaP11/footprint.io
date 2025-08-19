@@ -144,7 +144,7 @@ function App () {
               <div className='align-middle'>
                 <Button
                   type='icon'
-                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 w-30  font-extralight'
+                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 w-30 font-extralight'
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsSearchBoxOpen(true)

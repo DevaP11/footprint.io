@@ -1,6 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import bookmarkLeaf from '@/assets/bookmarks-leaf.png'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 
 export default function PreferencesBanner ({ collections }) {
   return (
@@ -22,20 +24,29 @@ export default function PreferencesBanner ({ collections }) {
       </Card>
       <Card className='bg-[#EFEFEF]'>
         <CardContent className='p-0 m-0 rounded-lg'>
-          <div className='flex flex-row w-full justify-around'>
-            <div>
+          <div className='flex flex-row w-full justify-between'>
+            <div className='ml-8'>
               <h3 className='font-semi-bold text-m'>Collections</h3>
-              <text className='font-extralight text-sm'>Create collections to organize bookmarks</text>
+              <text className='font-extralight text-sm'>You can use collections to organize bookmarks</text>
             </div>
-            <div className='ml-8 grid grid-cols-4 auto-rows-fr space-x-4 text-sm h-full'>
+            <div className='grid grid-cols-3 auto-rows-fr gap-x-2 text-sm align-middle'>
               {collections.map((c, i) => {
                 return (
-                  <div className='grid grid-cols-2 grid-rows-1 gap-2 items-center  mt-2' key={i}>
+                  <div className='grid grid-cols-2 grid-rows-1 gap-x-2 pt-3 font-extralight' key={i}>
                     {c.title}
-                    {i !== (collections.length - 1) && <Separator orientation='vertical' className='bg-stone-400' />}
+                    <Separator orientation='vertical' className='bg-stone-400' />
                   </div>
                 )
               })}
+              <Button
+                type='icon'
+                className='bg-transparent hover:bg-stone-200 w-[20px] ml-6 pt-3 shadow-none text-black'
+                onClick={(e) => {
+                  e.stopPropagation()
+                }}
+              >
+                <Plus strokeWidth={1} />
+              </Button>
             </div>
           </div>
         </CardContent>
