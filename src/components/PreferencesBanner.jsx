@@ -29,18 +29,18 @@ export default function PreferencesBanner ({ collections }) {
               <h3 className='font-semi-bold text-m'>Collections</h3>
               <text className='font-extralight text-sm'>You can use collections to organize bookmarks</text>
             </div>
-            <div className='grid grid-cols-3 auto-rows-fr gap-x-2 text-sm align-middle'>
+            <div className='grid grid-cols-3 auto-rows-fr gap-x-0 gap-y-2 text-xs w-[34vw]'>
               {collections.map((c, i) => {
                 return (
-                  <div className='grid grid-cols-2 grid-rows-1 gap-x-2 pt-3 font-extralight' key={i}>
+                  <div className='grid grid-cols-2 grid-rows-1 gap-x-1 font-extralight' key={i}>
                     {c.title}
-                    <Separator orientation='vertical' className='bg-stone-400' />
+                    <Separator orientation='vertical' className='bg-stone-400 max-h-3' />
                   </div>
                 )
               })}
               <Button
                 type='icon'
-                className='bg-transparent hover:bg-stone-200 w-[20px] ml-6 pt-3 shadow-none text-black'
+                className='bg-transparent hover:bg-stone-200 w-[10px] h-[10px] ml-3 shadow-none text-black'
                 onClick={(e) => {
                   e.stopPropagation()
                 }}
