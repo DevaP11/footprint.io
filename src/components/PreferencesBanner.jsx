@@ -40,7 +40,7 @@ export default function PreferencesBanner ({ collections }) {
               })}
               <Button
                 type='icon'
-                className='bg-transparent hover:bg-stone-200 w-[10px] h-[10px] ml-3 shadow-none text-black'
+                className='bg-transparent hover:bg-stone-200 w-[8px] h-[8px] ml-3 shadow-none text-black'
                 onClick={(e) => {
                   e.stopPropagation()
                 }}
