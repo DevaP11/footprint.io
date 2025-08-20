@@ -154,7 +154,7 @@ function App () {
                 </Button>
                 <Button
                   type='icon'
-                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 font-extralight'
+                  className='bg-stone-900 hover:bg-stone-200 text-white shadow-none mr-2 h-8 font-extralight'
                   onClick={(e) => {
                     e.stopPropagation()
                     setAddBookmark(true)
