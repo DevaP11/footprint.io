@@ -4,7 +4,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { load } from '@tauri-apps/plugin-store'
 
-export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, setActiveTab }) {
+export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, setActiveTab, className }) {
   const clearStore = async () => {
     const store = await load('store.json', { autoSave: false })
     await store.set('bookmarks', [])

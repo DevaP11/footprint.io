@@ -135,26 +135,26 @@ function App () {
       <div className='ml-[8vw] mr-[8vw] mt-8 overflow-hidden w-[84vw]'>
         <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
           <div className='flex flex-col'>
-            <div className='flex flex-row mb-0 w-full justify-between mb-2'>
-              <TabsList className='bg-stone-200'>
+            <div className='grid grid-rows-1 grid-cols-24 gap-4 w-[100%]'>
+              <TabsList className='bg-stone-200 col-span-6'>
                 <TabsTrigger value='home' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
                   footprint.io
                 </TabsTrigger>
               </TabsList>
-              <div className='align-middle'>
+              <Button
+                type='icon'
+                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 col-span-12 font-extralight'
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setIsSearchBoxOpen(true)
+                }}
+              >
+                <Search strokeWidth={1} /> Search
+              </Button>
+              <div className='grid grid-rows-1 grid-cols-5 gap-2 col-span-6'>
                 <Button
                   type='icon'
-                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none mr-2 h-8 w-30 font-extralight'
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setIsSearchBoxOpen(true)
-                  }}
-                >
-                  <Search strokeWidth={1} /> Search
-                </Button>
-                <Button
-                  type='icon'
-                  className='bg-stone-900 hover:bg-stone-200 text-white shadow-none mr-2 h-8 font-extralight'
+                  className='bg-stone-900 hover:bg-stone-200 text-white shadow-none h-8 col-start-3 col-span-2 font-extralight'
                   onClick={(e) => {
                     e.stopPropagation()
                     setAddBookmark(true)
@@ -164,7 +164,7 @@ function App () {
                 </Button>
                 <Button
                   type='icon'
-                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 font-extralight'
+                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 col-start-5 col-span-1 font-extralight mr-1.5'
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsAccountMenuOpen(!isAccountMenuOpen)
