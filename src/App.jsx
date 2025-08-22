@@ -136,8 +136,8 @@ function App () {
         <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
           <div className='flex flex-col'>
             <div className='grid grid-rows-1 grid-cols-24 gap-4 w-[100%]'>
-              <TabsList className='bg-stone-200 col-span-6'>
-                <TabsTrigger value='home' className='font-extralight bg-stone-200 data-[state=active]:bg-stone-300 data-[state=active]:shadow-md'>
+              <TabsList className='bg-white-100 col-span-6 border'>
+                <TabsTrigger value='home' className='font-extralight text-emerald-900 bg-white shadow-xl'>
                   footprint.io
                 </TabsTrigger>
               </TabsList>
