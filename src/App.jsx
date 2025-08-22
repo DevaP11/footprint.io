@@ -137,7 +137,7 @@ function App () {
           <div className='flex flex-col'>
             <div className='grid grid-rows-1 grid-cols-24 gap-4 w-[100%]'>
               <TabsList className='bg-white-100 col-span-6 border'>
-                <TabsTrigger value='home' className='font-extralight text-emerald-900 bg-white'>
+                <TabsTrigger value='home' className='font-extralight text-red-900 bg-white'>
                   footprint.io
                 </TabsTrigger>
               </TabsList>
