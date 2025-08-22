@@ -15,7 +15,7 @@ export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, 
   return (
     <DropdownMenu open={isAccountMenuOpen} onOpenChange={() => { setIsAccountMenuOpen(!isAccountMenuOpen) }}>
       <DropdownMenuTrigger asChild={false} />
-      <DropdownMenuContent className='w-42 mt-2 mr-2 p-2 font-extralight text-xs bg-stone-100' align='end'>
+      <DropdownMenuContent className='w-42 mt-3 mr-2 p-2 font-extralight text-xs bg-stone-100' align='end'>
         <DropdownMenuLabel className='flex justify-end'>Hi Deva !</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className={hoverStyleForDropdownItem}>

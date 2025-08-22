@@ -143,7 +143,18 @@ function App () {
               </TabsList>
               <Button
                 type='icon'
-                className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 col-span-12 font-extralight'
+                className={`text-black shadow-none col-span-12
+                relative overflow-hidden
+                bg-transparent backdrop-blur-md
+                border border-red/20
+                shadow-xml shadow-black/25
+                hover:bg-transparent hover:border-red/30
+                hover:shadow-xl hover:shadow-black/30
+                transition-all duration-300 ease-out
+                hover:scale-105
+                active:scale-95
+                group
+                font-extralight`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setIsSearchBoxOpen(true)
@@ -154,7 +165,19 @@ function App () {
               <div className='grid grid-rows-1 grid-cols-5 gap-2 col-span-6'>
                 <Button
                   type='icon'
-                  className='bg-stone-900 hover:bg-stone-200 text-white shadow-none h-8 col-start-3 col-span-2 font-extralight'
+                  className={`bg-stone-900 col-start-3 col-span-2
+                    text-white shadow-none
+                    relative overflow-hidden
+                    bg-stone-900 backdrop-blur-md
+                    border border-stone-900/20
+                    shadow-xml shadow-black/25
+                    transition-all duration-300 ease-out
+                    hover:bg-stone-900 hover:border-red/30
+                    hover:shadow-xl hover:shadow-black/30
+                    hover:scale-105
+                    active:scale-95
+                    group
+                    font-extralight`}
                   onClick={(e) => {
                     e.stopPropagation()
                     setAddBookmark(true)
@@ -162,21 +185,28 @@ function App () {
                 >
                   <Plus strokeWidth={1} /> Add
                 </Button>
-                <Button
-                  type='icon'
-                  className='bg-stone-300 hover:bg-stone-200 text-black shadow-none h-8 col-start-5 col-span-1 font-extralight mr-1.5'
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setIsAccountMenuOpen(!isAccountMenuOpen)
-                  }}
-                >
-                  <Menu strokeWidth={1} />
-                </Button>
-                <AccountMenu
-                  isAccountMenuOpen={isAccountMenuOpen}
-                  setIsAccountMenuOpen={setIsAccountMenuOpen}
-                  setActiveTab={setActiveTab}
-                />
+                <div> {/** Account menu */}
+                  <Button
+                    type='icon'
+                    className={`bg-white-300 border hover:bg-white-200
+                      transition-all duration-300 ease-out
+                      hover:scale-105
+                      active:scale-95
+                      group
+                      text-black shadow-none col-start-5 col-span-1 font-extralight mr-1.5`}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setIsAccountMenuOpen(!isAccountMenuOpen)
+                    }}
+                  >
+                    <Menu strokeWidth={1} />
+                  </Button>
+                  <AccountMenu
+                    isAccountMenuOpen={isAccountMenuOpen}
+                    setIsAccountMenuOpen={setIsAccountMenuOpen}
+                    setActiveTab={setActiveTab}
+                  />
+                </div>
               </div>
             </div>
             <CollectBookmarkForm
@@ -195,7 +225,7 @@ function App () {
             <TabsContent value='home'>
               {
                 bookmarkList?.length === 0 && (
-                  <div className='grid grid-cols-1 grid-rows-1 h-[75vh]'>
+                  <div className='grid grid-cols-1 grid-rows-1 h-[75vh] pr-4'>
                     <span className='place-self-center text-stone-600'>
                       <NoDataSvg
                         height={50}
