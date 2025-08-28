@@ -3,7 +3,7 @@ import { ProgressiveBlur } from '@/components/magicui/progressive-blur'
 import { load } from '@tauri-apps/plugin-store'
 import { useEffect, useState } from 'react'
 import Bookmark from '@/components/Bookmark'
-import { Search, Plus, Menu } from 'lucide-react'
+import { Search, Plus, Menu, Edit, Book } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import CollectBookmarkForm from '@/components/CollectBookmarkForm'
@@ -14,10 +14,8 @@ import { FloatingDock } from '@/components/ui/floating-dock'
 import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
 import PreferencesBanner from '@/components/PreferencesBanner'
 import { NoDataSvg } from '@/assets/SvgList'
-import { Edit } from 'lucide-react'
-import { Book } from 'lucide-react'
 
-function chunkArray(arr, chunkSize) {
+function chunkArray (arr, chunkSize) {
   const result = []
   for (let i = 0; i < arr.length; i += chunkSize) {
     result.push(arr.slice(i, i + chunkSize))
@@ -25,7 +23,7 @@ function chunkArray(arr, chunkSize) {
   return result
 }
 
-function App() {
+function App () {
   const [collection, setCollection] = useState('home')
   const [collections, setCollections] = useState([])
   const [activeTab, setActiveTab] = useState('preferences')
@@ -67,7 +65,7 @@ function App() {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
       const collectionFromStore = (await store.get('collections')) || []
-      console.log("Collections From store...", collectionFromStore)
+      console.log('Collections From store...', collectionFromStore)
       if (collectionFromStore?.length !== 0) setCollections(collectionFromStore)
       setBookmarksComplete(listFromStore)
       listFromStore = collection?.toLowerCase() !== 'all' ? listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase()) : listFromStore
