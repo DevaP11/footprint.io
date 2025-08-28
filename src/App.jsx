@@ -14,67 +14,10 @@ import { FloatingDock } from '@/components/ui/floating-dock'
 import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
 import PreferencesBanner from '@/components/PreferencesBanner'
 import { NoDataSvg } from '@/assets/SvgList'
+import { Edit } from 'lucide-react'
+import { Book } from 'lucide-react'
 
-const links = [
-  {
-    title: 'All',
-    icon: (
-      <IconHome className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-
-  {
-    title: 'Products',
-    icon: (
-      <IconTerminal2 className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-  {
-    title: 'Components',
-    icon: (
-      <IconNewSection className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-  {
-    title: 'Aceternity UI',
-    icon: (
-      <img
-        src='https://assets.aceternity.com/logo-dark.png'
-        width={20}
-        height={20}
-        alt='Aceternity Logo'
-      />
-    ),
-    href: '#'
-  },
-  {
-    title: 'Changelog',
-    icon: (
-      <IconExchange className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-
-  {
-    title: 'Twitter',
-    icon: (
-      <IconBrandX className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-  {
-    title: 'GitHub',
-    icon: (
-      <IconBrandGithub className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  }
-]
-
-function chunkArray (arr, chunkSize) {
+function chunkArray(arr, chunkSize) {
   const result = []
   for (let i = 0; i < arr.length; i += chunkSize) {
     result.push(arr.slice(i, i + chunkSize))
@@ -82,8 +25,9 @@ function chunkArray (arr, chunkSize) {
   return result
 }
 
-function App () {
+function App() {
   const [collection, setCollection] = useState('home')
+  const [collections, setCollections] = useState([])
   const [activeTab, setActiveTab] = useState('preferences')
   const [addBookmark, setAddBookmark] = useState(false)
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false)
@@ -122,6 +66,9 @@ function App () {
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
+      const collectionFromStore = (await store.get('collections')) || []
+      console.log("Collections From store...", collectionFromStore)
+      if (collectionFromStore?.length !== 0) setCollections(collectionFromStore)
       setBookmarksComplete(listFromStore)
       listFromStore = collection?.toLowerCase() !== 'all' ? listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase()) : listFromStore
       setBookmarkList(listFromStore)
@@ -280,7 +227,7 @@ function App () {
               />
             </TabsContent>
             <TabsContent key='preferences' value='preferences'>
-              <PreferencesBanner collections={links} />
+              <PreferencesBanner />
             </TabsContent>
           </div>
         </Tabs>
@@ -289,7 +236,7 @@ function App () {
           <FloatingDock
             desktopClassName='fixed bottom-6 z-2'
             mobileClassName='fixed bottom-6'
-            items={activeTab === 'editor' ? markdownMenu : links}
+            items={activeTab === 'editor' ? markdownMenu : collections}
             setCollection={setCollection}
             setActiveTab={setActiveTab}
           />
