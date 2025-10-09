@@ -29,6 +29,19 @@ const getIconForString = (str) => {
   return Icons[randomKey]
 }
 
+function getUniqueByTitle(arr) {
+  const seen = new Map();
+
+  return arr.filter(obj => {
+    if (!seen.has(obj.title)) {
+      seen.set(obj.title, true);
+      return true;
+    }
+    return false;
+  });
+}
+
+
 const TagInput = () => {
   const [tags, setTags] = useState([])
   const [tagToRemove, setTagToRemove] = useState("")
@@ -38,7 +51,7 @@ const TagInput = () => {
   useEffect(() => {
     const updateCollections = async () => {
       const store = await load('store.json', { autoSave: false })
-      const collectionFromStore = (await store.get('collections')) || []
+      let collectionFromStore = (await store.get('collections')) || []
 
       setTags(collectionFromStore?.map(c => c.title))
       collectionFromStore.forEach((c, index) => {
@@ -49,6 +62,8 @@ const TagInput = () => {
       if (tagToAdd) {
         collectionFromStore.push({ title: tagToAdd })
       }
+      console.log("Saving Collections....", collectionFromStore)
+      collectionFromStore = getUniqueByTitle(collectionFromStore)
       await store.set('collections', collectionFromStore)
       await store.save()
       return collectionFromStore

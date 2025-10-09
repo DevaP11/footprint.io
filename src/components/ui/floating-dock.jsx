@@ -6,6 +6,7 @@
 import { getIconForString } from '@/components/TagSelector'
 import { cn } from '@/lib/utils'
 import { IconLayoutNavbarCollapse } from '@tabler/icons-react'
+import { HelpCircle } from 'lucide-react'
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 
 import { useRef, useState } from 'react'
@@ -76,9 +77,9 @@ const FloatingDockMobile = ({
       </AnimatePresence>
       <button
         onClick={() => setOpen(!open)}
-        className='flex h-10 w-10 items-center justify-center rounded-full bg-stone-500 dark:bg-stone-800'
+        className='flex h-10 w-10 items-center justify-center rounded-full bg-stone-500 dark:bg-stone-200'
       >
-        <IconLayoutNavbarCollapse className='h-5 w-5 text-stone-500 dark:text-stone-400' />
+        <IconLayoutNavbarCollapse className='h-5 w-5 text-stone-500 dark:text-stone-600' />
       </button>
     </div>
   )
@@ -96,7 +97,7 @@ const FloatingDockDesktop = ({
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        'mx-auto hidden h-16 items-end gap-4 rounded-2xl bg-stone-500px-4 pb-3 md:flex dark:bg-stone-900',
+        'mx-auto hidden h-16 items-end gap-4 rounded-2xl px-4 pb-3 md:flex dark:bg-stone-900',
         className
       )}
     >
@@ -121,7 +122,6 @@ const FloatingDockDesktop = ({
 function IconContainer({
   mouseX,
   title,
-  icon,
   href
 }) {
   const ref = useRef(null)
@@ -132,31 +132,31 @@ function IconContainer({
     return val - bounds.x - bounds.width / 2
   })
 
-  const widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40])
-  const heightTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40])
+  const widthTransform = useTransform(distance, [-120, 0, 120], [60, 120, 60])
+  const heightTransform = useTransform(distance, [-120, 0, 120], [60, 120, 60])
 
-  const widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20])
-  const heightTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20])
+  const widthTransformIcon = useTransform(distance, [-120, 0, 120], [30, 60, 30])
+  const heightTransformIcon = useTransform(distance, [-120, 0, 120], [30, 60, 30])
 
   const width = useSpring(widthTransform, {
     mass: 0.1,
-    stiffness: 150,
+    stiffness: 120,
     damping: 12
   })
   const height = useSpring(heightTransform, {
     mass: 0.1,
-    stiffness: 150,
+    stiffness: 120,
     damping: 12
   })
 
   const widthIcon = useSpring(widthTransformIcon, {
     mass: 0.1,
-    stiffness: 150,
+    stiffness: 120,
     damping: 12
   })
   const heightIcon = useSpring(heightTransformIcon, {
     mass: 0.1,
-    stiffness: 150,
+    stiffness: 120,
     damping: 12
   })
 
@@ -169,25 +169,13 @@ function IconContainer({
         style={{ width, height }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className='relative flex aspect-square items-center justify-center rounded-full bg-stone-200 dark:bg-stone-800'
+        className='relative flex aspect-square items-center justify-center rounded-full bg-stone-200 dark:bg-stone-200'
       >
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, x: '-50%' }}
-              animate={{ opacity: 1, y: 0, x: '-50%' }}
-              exit={{ opacity: 0, y: 2, x: '-50%' }}
-              className='absolute -top-8 left-1/2 w-fit rounded-md border border-stone-200 bg-stone-100 px-2 py-0.5 text-xs whitespace-pre text-stone-700 dark:border-stone-900 dark:bg-stone-800 dark:text-white'
-            >
-              {title}
-            </motion.div>
-          )}
-        </AnimatePresence>
         <motion.div
           style={{ width: widthIcon, height: heightIcon }}
           className='flex items-center justify-center'
         >
-          {getIconForString(title)}
+          {<span className='text-xs font-light '>{title}</span>}
         </motion.div>
       </motion.div>
     </a>
