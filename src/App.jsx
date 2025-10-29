@@ -242,7 +242,7 @@ function App() {
           </div>
         </Tabs>
         <div className='flex flex-row justify-center'>
-          <ProgressiveBlur position='bottom' height='20%' className='fixed bottom-20 z-1' />
+          <ProgressiveBlur position='bottom' height='10%' className='fixed bottom-20 z-1' />
           <FloatingDock
             desktopClassName='fixed bottom-6 z-2'
             mobileClassName='fixed bottom-6'
