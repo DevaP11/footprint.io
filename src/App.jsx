@@ -11,11 +11,11 @@ import Searchbox from '@/components/Searchbox'
 import BearEditor from '@/components/MarkdownEditor'
 import AccountMenu from '@/components/AccountMenu'
 import { FloatingDock } from '@/components/ui/floating-dock'
-import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, IconTerminal2, IconEdit, IconBook } from '@tabler/icons-react'
+import { IconEdit, IconBook } from '@tabler/icons-react'
 import PreferencesBanner from '@/components/PreferencesBanner'
 import { NoDataSvg } from '@/assets/SvgList'
 
-function chunkArray (arr, chunkSize) {
+function chunkArray(arr, chunkSize) {
   const result = []
   for (let i = 0; i < arr.length; i += chunkSize) {
     result.push(arr.slice(i, i + chunkSize))
@@ -23,9 +23,7 @@ function chunkArray (arr, chunkSize) {
   return result
 }
 
-function App () {
-  const [collection, setCollection] = useState('home')
-  const [collections, setCollections] = useState([])
+function App() {
   const [activeTab, setActiveTab] = useState('preferences')
   const [addBookmark, setAddBookmark] = useState(false)
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false)
@@ -64,26 +62,40 @@ function App () {
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
-      const collectionFromStore = (await store.get('collections')) || []
-      console.log('Collections From store...', collectionFromStore)
-      if (collectionFromStore?.length !== 0) setCollections(collectionFromStore)
       setBookmarksComplete(listFromStore)
-      listFromStore = collection?.toLowerCase() !== 'all' ? listFromStore?.filter(bookmark => bookmark.collection?.toLowerCase() === collection?.toLowerCase()) : listFromStore
       setBookmarkList(listFromStore)
       markdownContent ? setActiveTab('editor') : setActiveTab('home')
     }
 
     loadList()
-  }, [markdownContent, collection]) /** Change every time a markdown content  is set or a collection is selected */
+  }, [markdownContent]) /** Change every time a markdown content  is set */
+
   return (
     <main id='root'>
       <div className='ml-[8vw] mr-[8vw] mt-8 overflow-hidden w-[84vw]'>
         <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
           <div className='flex flex-col'>
             <div className='grid grid-rows-1 grid-cols-24 gap-4 w-[100%]'>
-              <TabsList className='bg-white-100 col-span-6 border'>
-                <TabsTrigger value='home' className='font-extralight text-red-900 bg-white'>
-                  footprint.io
+              <TabsList className='bg-white-100 col-span-6 border-gray-50 border-1'>
+                <TabsTrigger value='home' className='font-light text-white p-0'>
+                  <Button
+                    type='icon'
+                    className={`bg-[#660033] col-start-3 col-span-2
+                      text-white shadow-none
+                      relative overflow-hidden
+                      bg-[#660033] backdrop-blur-md
+                      border border-stone-900/20
+                      transition-all duration-300 ease-out
+                      hover:bg-[#780606] hover:border-[#780606]/30
+                      shadow-sm shadow-black/25
+                      hover:shadow-sm hover:shadow-black/30
+                      hover:scale-105
+                      active:scale-95
+                      group
+                      font-medium leading-[0.8]`}
+                  >
+                    footprint.io
+                  </Button>
                 </TabsTrigger>
               </TabsList>
               <Button
@@ -92,9 +104,9 @@ function App () {
                 relative overflow-hidden
                 bg-transparent backdrop-blur-md
                 border border-red/20
-                shadow-xml shadow-black/25
                 hover:bg-transparent hover:border-red/30
-                hover:shadow-xl hover:shadow-black/30
+                shadow-xml shadow-black/25
+                hover:shadow-sm hover:shadow-black/30
                 transition-all duration-300 ease-out
                 hover:scale-105
                 active:scale-95
@@ -234,13 +246,12 @@ function App () {
           <FloatingDock
             desktopClassName='fixed bottom-6 z-2'
             mobileClassName='fixed bottom-6'
-            items={activeTab === 'editor' ? markdownMenu : collections}
-            setCollection={setCollection}
+            items={activeTab === 'editor' ? markdownMenu : []}
             setActiveTab={setActiveTab}
           />
         </div>
-      </div>
-    </main>
+      </div >
+    </main >
   )
 }
 

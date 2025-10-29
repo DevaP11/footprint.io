@@ -3,10 +3,9 @@
  * Desktop navbar is better positioned at the bottom
  * Mobile navbar is better positioned at bottom right.
  **/
-import { getIconForString } from '@/components/TagSelector'
 import { cn } from '@/lib/utils'
+import { IconMicroscopeFilled } from '@tabler/icons-react'
 import { IconLayoutNavbarCollapse } from '@tabler/icons-react'
-import { HelpCircle } from 'lucide-react'
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 
 import { useRef, useState } from 'react'
@@ -68,7 +67,7 @@ const FloatingDockMobile = ({
                   }}
                   className='flex h-10 w-10 items-center justify-center rounded-full bg-stone-500 dark:bg-stone-900'
                 >
-                  <div className='h-4 w-4'>{getIconForString(item.title)}</div>
+                  <div className='h-4 w-4'>{<IconMicroscopeFilled />}</div>
                 </button>
               </motion.div>
             ))}

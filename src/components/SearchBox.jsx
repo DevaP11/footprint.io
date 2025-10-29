@@ -7,6 +7,7 @@ import { IconBrandGithub, IconBrandX, IconExchange, IconHome, IconNewSection, Ic
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { CommandSeparator } from 'cmdk'
 import { Particles } from '@/components/magicui/particles'
+import { IconMicroscope } from '@tabler/icons-react'
 
 const links = [
   {
@@ -67,7 +68,7 @@ const links = [
   }
 ]
 
-export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxOpen, setMarkdownContent, setBookmarkId }) {
+export default function Searchbox({ bookmarks, isSearchBoxOpen, setIsSearchBoxOpen, setMarkdownContent, setBookmarkId }) {
   const [inputValue, setInputValue] = useState('')
   const [results, setResults] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -76,8 +77,8 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
   // Create and configure MiniSearch instance
   const miniSearch = useMemo(() => {
     const ms = new MiniSearch({
-      fields: ['title', 'collection', 'id', 'description'],
-      storeFields: ['title', 'collection', 'id', 'description'], // Include id for better key handling
+      fields: ['title', 'id', 'description'],
+      storeFields: ['title', 'id', 'description'], // Include id for better key handling
       searchOptions: {
         prefix: false,
         boost: { title: 2 } // Boost title matches
@@ -198,28 +199,25 @@ export default function Searchbox ({ bookmarks, isSearchBoxOpen, setIsSearchBoxO
                               <div className='p-2 text-sm text-muted-foreground'>
                                 No results found for "{inputValue}"
                               </div>
-                              )
+                            )
                             : (
-                                results.map((result, index) => {
-                                  const matchingLink = links.find(l =>
-                                    l.title?.toLowerCase() === result.collection?.toLowerCase()
-                                  )
+                              results.map((result, index) => {
 
-                                  return (
-                                    <CommandItem
-                                      key={`result-${result?.id}`}
-                                      onSelect={() => {
-                                        setMarkdownContent(result?.description)
-                                        setBookmarkId(result?.id)
-                                        setIsSearchBoxOpen(false)
-                                      }}
-                                    >
-                                      {matchingLink?.icon}
-                                      <span>{result.title}</span>
-                                    </CommandItem>
-                                  )
-                                })
-                              )}
+                                return (
+                                  <CommandItem
+                                    key={`result-${result?.id}`}
+                                    onSelect={() => {
+                                      setMarkdownContent(result?.description)
+                                      setBookmarkId(result?.id)
+                                      setIsSearchBoxOpen(false)
+                                    }}
+                                  >
+                                    {<IconMicroscope />}
+                                    <span>{result.title}</span>
+                                  </CommandItem>
+                                )
+                              })
+                            )}
                         </CommandGroup>}
 
                       <CommandSeparator />

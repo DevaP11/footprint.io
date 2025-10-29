@@ -21,7 +21,7 @@ const turndownService = new TurndownService({
   bulletListMarker: '-'
 })
 
-async function fetchWebpage (url) {
+async function fetchWebpage(url) {
   try {
     const result = await invoke('fetch_webpage_content', { url })
 
@@ -53,72 +53,11 @@ const parseImages = (url) => {
   return formattedImageUrl
 }
 
-const collections = [
-  {
-    title: 'Home',
-    icon: (
-      <IconHome className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-
-  {
-    title: 'Products',
-    icon: (
-      <IconTerminal2 className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-  {
-    title: 'Components',
-    icon: (
-      <IconNewSection className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-  {
-    title: 'Aceternity UI',
-    icon: (
-      <img
-        src='https://assets.aceternity.com/logo-dark.png'
-        width={20}
-        height={20}
-        alt='Aceternity Logo'
-      />
-    ),
-    href: '#'
-  },
-  {
-    title: 'Changelog',
-    icon: (
-      <IconExchange className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-
-  {
-    title: 'Twitter',
-    icon: (
-      <IconBrandX className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  },
-  {
-    title: 'GitHub',
-    icon: (
-      <IconBrandGithub className='h-full w-full text-neutral-500 dark:text-neutral-300' />
-    ),
-    href: '#'
-  }
-]
-
-export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setMarkdownContent, setBookmarkId }) {
+export default function CollectBookmarkForm({ addBookmark, setAddBookmark, setMarkdownContent, setBookmarkId }) {
   const [url, setUrl] = useState('')
-  const [collection, setCollection] = useState(collections[0].title)
 
   const handleScrape = async (e) => {
     e.preventDefault()
-    console.log('collection', collection)
     if (!url?.trim()) {
       return
     }
@@ -301,7 +240,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
       }
 
       bookmarkObject.description = cleanedMarkdown
-      bookmarkObject.collection = collection?.toLowerCase()
       bookmarkObject.id = uuid.v4()
       setBookmarkId(bookmarkObject.id)
 
@@ -367,31 +305,6 @@ export default function CollectBookmarkForm ({ addBookmark, setAddBookmark, setM
                     required
                     onChange={(e) => setUrl(e.target.value)}
                   />
-                </div>
-                <div className='grid gap-3'>
-                  <Label htmlFor='collection'>Collection</Label>
-                  <Select
-                    onValueChange={setCollection}
-                    value={collection}
-                  >
-                    <SelectTrigger className='w-[180px]'>
-                      <SelectValue
-                        placeholder={collections[0].title}
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {
-                        collections.map((c, index) => {
-                          return (
-                            <SelectItem value={c.title} key={`collection-${index}`}>
-                              {c?.icon}
-                              <span>{c.title}</span>
-                            </SelectItem>
-                          )
-                        })
-                      }
-                    </SelectContent>
-                  </Select>
                 </div>
                 <div className='w-[100%] h-[100%] flex flex-col items-center text-center'>
                   <HoverMeButton type='submit' text='Submit' />
