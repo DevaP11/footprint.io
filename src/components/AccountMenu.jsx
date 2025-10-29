@@ -4,7 +4,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { load } from '@tauri-apps/plugin-store'
 
-export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, setActiveTab, className }) {
+export default function AccountMenu({ isAccountMenuOpen, setIsAccountMenuOpen, setActiveTab, className }) {
   const clearStore = async () => {
     const store = await load('store.json', { autoSave: false })
     await store.set('bookmarks', [])
@@ -16,7 +16,7 @@ export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, 
     <DropdownMenu open={isAccountMenuOpen} onOpenChange={() => { setIsAccountMenuOpen(!isAccountMenuOpen) }}>
       <DropdownMenuTrigger asChild={false} />
       <DropdownMenuContent className='w-42 mt-3 mr-2 p-2 font-extralight text-xs bg-stone-100' align='end'>
-        <DropdownMenuLabel className='flex justify-end'>Hi Deva !</DropdownMenuLabel>
+        <DropdownMenuLabel className='flex justify-end'>Hi !</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className={hoverStyleForDropdownItem}>
           <Button
@@ -28,11 +28,9 @@ export default function AccountMenu ({ isAccountMenuOpen, setIsAccountMenuOpen, 
               setActiveTab('preferences')
             }}
           >
-            <span className='font-extralight text-black-900'>Preferences</span>
+            <span className='font-extralight text-black-900'>Statistics</span>
           </Button>
         </DropdownMenuItem>
-        <DropdownMenuItem className={hoverStyleForDropdownItem}>Import</DropdownMenuItem>
-        <DropdownMenuItem className={hoverStyleForDropdownItem}>Backup</DropdownMenuItem>
         <DropdownMenuItem className={hoverStyleForDropdownItem}>
           <Button
             variant='ghost'

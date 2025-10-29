@@ -55,7 +55,7 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
   }
 
   return (
-    <div className='h-[75vh] overflow-hidden'>
+    <div className='h-[80vh] overflow-hidden'>
       {/* Editor/Preview Area */}
       <div className='h-full'>
         {isEditing
@@ -93,7 +93,7 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
                 }}
               />
             </div>
-            )
+          )
           : (
             <div
               className='h-full overflow-auto cursor-text'
@@ -142,7 +142,7 @@ const BearEditor = ({ markdownContent, setMarkdownContent, bookmarkId, isEditing
                 </div>
               </div>
             </div>
-            )}
+          )}
       </div>
     </div>
   )

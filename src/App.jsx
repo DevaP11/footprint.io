@@ -72,7 +72,7 @@ function App() {
 
   return (
     <main id='root'>
-      <div className='ml-[8vw] mr-[8vw] mt-8 overflow-hidden w-[84vw]'>
+      <div className='ml-[8vw] mr-[8vw] pt-8 overflow-hidden w-[84vw]'>
         <Tabs value={activeTab} onValueChange={() => { setActiveTab('home') }}>
           <div className='flex flex-col'>
             <div className='grid grid-rows-1 grid-cols-24 gap-4 w-[100%]'>
@@ -80,13 +80,13 @@ function App() {
                 <TabsTrigger value='home' className='font-light text-white p-0'>
                   <Button
                     type='icon'
-                    className={`bg-[#660033] col-start-3 col-span-2
+                    className={`bg-[#3D4127] col-start-3 col-span-2
                       text-white shadow-none
                       relative overflow-hidden
-                      bg-[#660033] backdrop-blur-md
+                      bg-[#3D4127] backdrop-blur-md
                       border border-stone-900/20
                       transition-all duration-300 ease-out
-                      hover:bg-[#780606] hover:border-[#780606]/30
+                      hover:bg-[#636B2F] hover:border-[#636B2F]/30
                       shadow-sm shadow-black/25
                       hover:shadow-sm hover:shadow-black/30
                       hover:scale-105
