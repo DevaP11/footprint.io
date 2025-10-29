@@ -31,7 +31,6 @@ function App() {
   const [markdownContent, setMarkdownContent] = useState('')
   const [bookmarkId, setBookmarkId] = useState('')
   const [bookmarkList, setBookmarkList] = useState([])
-  const [bookmarksComplete, setBookmarksComplete] = useState([])
   const [isEditing, setIsEditing] = useState(false)
 
   const editButton = {
@@ -42,6 +41,27 @@ function App() {
     href: '#',
     onClick: () => {
       setIsEditing(true)
+    }
+  }
+
+  const deleteButton = {
+    title: 'Delete',
+    icon: (
+      <IconEdit className='h-full w-full text-neutral-500 dark:text-neutral-300' />
+    ),
+    onClick: (e) => {
+      const updateBookmark = async (list) => {
+        const store = await load('store.json', { autoSave: false })
+        await store.set('bookmarks', list)
+        await store.save()
+      }
+
+      const listAfterDeleting = bookmarkList?.filter(b => b?.id !== bookmarkId)
+      updateBookmark(listAfterDeleting)
+        .then(() => {
+          setBookmarkList(listAfterDeleting)
+          setActiveTab('home')
+        })
     }
   }
 
@@ -56,13 +76,12 @@ function App() {
     }
   }
 
-  const markdownMenu = isEditing ? [previewButton] : [editButton]
+  const markdownMenu = isEditing ? [previewButton] : [editButton, deleteButton]
 
   useEffect(() => {
     const loadList = async () => {
       const store = await load('store.json', { autoSave: false })
       let listFromStore = await store.get('bookmarks')
-      setBookmarksComplete(listFromStore)
       setBookmarkList(listFromStore)
       markdownContent ? setActiveTab('editor') : setActiveTab('home')
     }
@@ -173,7 +192,7 @@ function App() {
               setBookmarkId={setBookmarkId}
             />
             <Searchbox
-              bookmarks={bookmarksComplete}
+              bookmarks={bookmarkList}
               isSearchBoxOpen={isSearchBoxOpen}
               setIsSearchBoxOpen={setIsSearchBoxOpen}
               setMarkdownContent={setMarkdownContent}
